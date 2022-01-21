@@ -9,7 +9,8 @@ router.put('/shoes/:id', controller.updateShoe);
 router.delete('/shoes/:id', controller.deleteShoe);
 router.post('/shoes', controller.addShoe);
 
-router.get('/users', controller.getUser);
-router.get('./users', controller.validateUser);
+router.get('/user', controller.getUser);
+router.get('/users', controller.getUsers);
+router.get('/butt', controller.validateUser);
 
 export = router;

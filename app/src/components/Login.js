@@ -1,57 +1,54 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import { useState, useRef } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect, useRef, useLocation } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { faEye,faEyeSlash, faLessThan } from "@fortawesome/free-solid-svg-icons";
 
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
 const Login = () => {
-//   const [formdata, setformdata] = useState({
-
-//     email: '',
-//     password: ''
-
-// }
 
   const[username, setUsername] = useState('');
   const[password, setPassword] = useState('');
+  const[show,setshow]=useState(false)
+  const pass = useRef();
+  const navigate = useNavigate();
 
-  // function performValidation() {
-  // return username.length > 0 && password.length > 0;
-  // }
+  const handleSubmit = e => {
+    const validateUser = async () => {
+      console.log("validating user");
+      const res = await fetch(`http://localhost:6060/butt?email=${username}&password=${password}`);
+      const data = await res.json();
+      
+      if(data['userValidated']) {
+        navigate("/Profile", { state: username });
+      } else {
+        alert('fuck')
+      }
+      
+    }
+    validateUser();
+    e.preventDefault();
 
-  // const[show,setshow]=useState(false)
-  // const pass = useRef();
-
-
-// const handleChange = (e) => {
-//     setformdata({...formdata, [e.target.name]:e.target.value})
-//     }
-
-  const handleSubmitClick = (e) => {
-      e.preventDefault();
-      console.log("Authenticated");
   }
-      //Fetch API stuff here 
+    //Fetch users from API
+    // useEffect(() => {
+    //   const fetchUsers = async () => {
+    //     const res = await fetch(`http://localhost:6060/butt/?email=${username}.com&password=${password}`)
+    //     const data = await res.json()
+    
+    //     console.log(data)
+    //   }
 
-  //   setformdata({
-  //     email:'',
-  //     password: ''
-  //   })
-  //   setshow(false)
-  // }
-
-
-  // const showpassword = () =>{
-  //   setshow(!show)
-  //   pass.current.type = show ? 'password':'text';
-  //   }
+  const showpassword = () =>{
+    setshow(!show)
+    pass.current.type = show ? 'password':'text';
+    }
 
   return (
     <>
-    <form className='add-form' onSubmit={handleSubmitClick}>
+    <form className='add-form' onSubmit={handleSubmit}>
         <div className='form-control'>
           <label>Email</label>
           <input 
@@ -63,12 +60,12 @@ const Login = () => {
         <div className='form-control'>
           <label>Password</label>
           <input 
-            // ref={pass}
+            ref={pass}
             type='password' 
             placeholder='Enter Your Password' 
             value={password}
             onChange={e => setPassword(e.target.value)}/>
-            {/* {show ? <i onClick={showpassword}>{Eye}</i>:<i onClick={showpassword}>{EyeSlash}</i>} */}
+            {show ? <i onClick={showpassword}>{Eye}</i>:<i onClick={showpassword}>{EyeSlash}</i>}
         </div>
         <input className='btn btn-block' type='submit' value='Enter' />
       </form>
@@ -79,4 +76,55 @@ const Login = () => {
   )
   }
 
-  export default Login
+export default Login
+
+
+    
+    //   fetchUsers()
+    // }, [handleSubmit])
+  
+
+  // function performValidation() {
+  //   if(username.length > 0 && password.length > 0){
+  //     console.log("Good job");
+  //   } else{
+  //     alert("Please enter username/password");
+  //   }
+  // }
+      
+ 
+
+  // async function loginUser(credentials) {
+  //   const response = await fetch('https://localhost:6060/users', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(credentials)
+  //   })
+  //     const content = await response.json();
+  //       console.log(content);
+  // }
+
+  // const handleSubmitClick = async (e) => {
+  //     e.preventDefault();
+  //     const response = await loginUser({
+  //       username,
+  //       password
+  //     });
+  // }
+ 
+
+  // async function getData(){
+  //   const response = await fetch(`http://localhost:6060/shoes/${username}`)
+  //   const data = await response.json
+  //   console.log(data)
+  // }
+      //Fetch API stuff here 
+
+  //   setformdata({
+  //     email:'',
+  //     password: ''
+  //   })
+  //   setshow(false)
+  // }

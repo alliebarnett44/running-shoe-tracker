@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from 'react'
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   Link
 } from "react-router-dom";
@@ -15,31 +15,46 @@ import Profile from "./components/Profile";
 export default function App() {
   
   // const[showAddShoe, setShowAddShoe] = useState(false)
-  const [shoes, setShoes] = useState([])
+  // const [shoes, setShoes] = useState([])
+  // const email = {username}
 
-  useEffect(() => {
-    const fetchShoes = async () => {
-      const res = await fetch('http://localhost:6060')
-      const data = await res.json()
+//  //Fetch shoes from API
+//   useEffect(() => {
+//     const fetchShoes = async () => {
+//       const res = await fetch('http://localhost:6060/shoes')
+//       const data = await res.json()
 
-      console.log(data)
-    }
+//       console.log(data)
+//     }
 
-    fetchShoes()
-  }, [])
+//     fetchShoes()
+//   }, [])
 
-  const addShoe = async (shoe) => {
-    const res = await fetch('http://localhost:6060/shoes', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(shoe),
-    })
-    const data = await res.json()
+  //Fetch users from API
+//   useEffect(() => {
+//   const fetchUsers = async () => {
+//     const res = await fetch('http://localhost:6060/users')
+//     const data = await res.json()
 
-    setShoes([...shoes, data])
-  }
+//     console.log(data)
+//   }
+
+//   fetchUsers()
+// }, [])
+
+
+  // const addShoe = async (shoe) => {
+  //   const res = await fetch('http://localhost:6060/shoes', {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(shoe),
+  //   })
+  //   const data = await res.json()
+
+  //   setShoes([...shoes, data])
+  // }
 
 
   // useEffect(() => {
@@ -51,13 +66,6 @@ export default function App() {
   //   fetchShoes()
   // }, [])
 
-  // //Fetch shoes from API
-  //  const fetchShoes = async() => {
-  //   const res = await fetch('http://localhost:6060/shoes')
-  //   const data = await res.json()
-
-  //   console.log(data)
-  // }
 
   //Add Shoe
   // const addShoe = async (shoe) => {
@@ -77,98 +85,12 @@ export default function App() {
     <Router>
       <div className="container">
         <Header/>
-        <Route 
-          path="/" 
-          exact
-          render={(props) => (
-            <Homepage />
-            )} />
-
-        <Route path="/Login" component={Login}/>
-        <Route path="/Profile" render={() =>
-          <div>
-            <Profile />
-            <AddShoe onAdd={addShoe}/>
-          </div>
-        }/>
+        <Routes>
+          <Route path="/" element={<Homepage/>}/>
+            <Route path="/Login" element={<Login/>}/>
+            <Route path="/Profile" element={<Profile/>}/>
+        </Routes>
       </div>
     </Router>
   )
 }
-
-
-
-
-
-
-// export default function App() {
-//   return (
-//     <Router>
-//       <div>
-//         <ul>
-//           <li>
-//             <Link to="/home">Home</Link>
-//           </li>
-//           <li>
-//             <Link to="/">Login</Link>
-//           </li>
-//         </ul>
-
-//         <hr />
-
-//         {/*
-//           A <Switch> looks through all its children <Route>
-//           elements and renders the first one whose path
-//           matches the current URL. Use a <Switch> any time
-//           you have multiple routes, but you want only one
-//           of them to render at a time
-//         */}
-//         <Switch>
-//           <Route path="/home">
-//             <Home />
-//           </Route>
-//           <Route exact path="/">
-//             <Login />
-//           </Route>
-//         </Switch>
-//       </div>
-//     </Router>
-//   );
-// }
-
-// // You can think of these components as "pages"
-// // in your app.
-
-
-// // import React from 'react';
-// // import Navbar from "react-bootstrap/Navbar";
-// // import Nav from "react-bootstrap/Nav";
-// // import { LinkContainer } from "react-router-bootstrap";
-// // import './App.css';
-// // import Routes from "./routes";
-
-// // function App() {
-// //   return (
-// //     <div className="App container py-3">
-// //       <Navbar collapseOnSelect bg="light" expand="md" className="mb-3">
-// //         <LinkContainer to="/">
-// //           <Navbar.Brand className="font-weight-bold text-muted">
-// //             TrackyMyShoes
-// //           </Navbar.Brand>
-// //         </LinkContainer>
-// //         <Navbar.Toggle />
-// //         <Navbar.Collapse className="justify-content-end">
-// //           <Nav activeKey={window.location.pathname}>
-// //             <LinkContainer to="/signup">
-// //               <Nav.Link>Signup</Nav.Link>
-// //             </LinkContainer>
-// //             <LinkContainer to="/login">
-// //               <Nav.Link>Login</Nav.Link>
-// //             </LinkContainer>
-// //           </Nav>
-// //         </Navbar.Collapse>
-// //       </Navbar>
-// //       <Routes />
-// //     </div>
-// //   );
-// // }

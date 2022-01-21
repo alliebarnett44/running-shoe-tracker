@@ -25,48 +25,67 @@ const uri =
   // Create a new MongoClient
 const client = new MongoClient(uri);
 
+// Get collection 
 async function getCollection(collection: string) {
     await client.connect();
     const database = await client.db("running_shoe_tracker");
     return await database.collection(collection);
-    }
+}
 
-const validateUser = async  (req: Request, res: Response) => {
-    let userRecord;
+
+// Get All Users
+const getUsers = async (req: Request, res: Response) => {
+    let users;
     try {
         const collection = await getCollection('users');
-        userRecord = await collection.findOne({
-            email: req.query.email
-        })
-        console.log(req)
-    }
-    catch(err) {
+        users = await collection.find({}).toArray();
+        console.log(users);
+    } catch(err) {
         console.log(err);
     }
     return res.status(200).json({
-        result: userRecord
+        result: users
     });
-        
-}
+};
 
-const getUser = async  (req: Request, res: Response) => {
+// Get User 
+const getUser = async (req: Request, res: Response, next: NextFunction) => {
     let userRecord;
     try {
-        const collection = await getCollection('users');
+        const collection = await getCollection("users");
         userRecord = await collection.findOne({
             email: req.query.email
-        })
-        console.log(req)
-    }
-    catch(err) {
+        });
+        console.log(userRecord);
+    } catch(err) {
         console.log(err);
     }
     return res.status(200).json({
-        result: userRecord
+        userRecord
     });
-        
-}
- 
+};
+
+const validateUser = async(req: Request, res: Response) => {
+    let userRecord;
+    try {
+        const collection = await getCollection("users");
+        userRecord = await collection.findOne({
+            $and: [ {email: req.query.email}, {password: req.query.password}]
+        });
+        console.log(userRecord);
+    } catch(err) {
+        console.log(err);
+    } if(userRecord === null){
+        return res.status(400).json({
+            userValidated: false
+        });
+    } else {
+        return res.status(200).json({
+            userValidated: true
+        });
+    }
+};
+
 // getting all shoes
 const getShoes = async (req: Request, res: Response) => {
     let runnerRecords;
@@ -86,10 +105,8 @@ const getShoes = async (req: Request, res: Response) => {
 const getShoe = async (req: Request, res: Response, next: NextFunction) => {
     let runnerRecord;
     try {
-        await client.connect();
-        const database = await client.db("running_shoe_tracker");
-        const runnerRecordCollection = await database.collection("shoe_records");
-        runnerRecord = await runnerRecordCollection.findOne({
+        const collection = await getCollection("shoe_records");
+        runnerRecord = await collection.findOne({
             email: req.params.email
         });
         console.log(runnerRecord);
@@ -147,7 +164,8 @@ const addShoe = async (req: Request, res: Response, next: NextFunction) => {
     });
 };
 
-export default { getShoes, getShoe, updateShoe, deleteShoe, addShoe, getUser, validateUser };
+
+export default { getShoes, getShoe, updateShoe, deleteShoe, addShoe, getUser, getUsers, validateUser};
 
 // const getShoesResult: runnerRecord[] = [
 //     {
