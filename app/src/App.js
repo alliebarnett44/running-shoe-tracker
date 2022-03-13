@@ -1,59 +1,98 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { useState, useEffect } from 'react'
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+import Header from './components/Header'
+import Login from './components/Login'
+import Homepage from "./components/Homepage";
+import AddShoe from "./components/AddShoe";
+import Profile from "./components/Profile";
+import AddMileage from "./components/AddMileage";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = { shoeData: [] };
-  }
 
-  componentDidMount() {
-    fetch("http://localhost:6060/shoes")
-      .then(res => res.json())
-      .then(
-        (response) => {
-          this.setState({
-            shoeData: response.result
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
+export default function App() {
+  
+  // const[showAddShoe, setShowAddShoe] = useState(false)
+  // const [shoes, setShoes] = useState([])
+  // const email = {username}
 
-  render() {
-    return (
-      <div className="App">
-        <table>
-          <tr>
-            <th>User Name</th>
-            <th>Shoe Brand</th>
-            <th>Mileage</th>
-            <th>Condition</th>
-            <th>Shoe Age (Months)</th>
-          </tr>
-          {this.state.shoeData.map((val, key) => {
-            return (
-              <tr key={key}>
-                <td>{val.userName}</td>
-                <td>{val.shoeBrand}</td>
-                <td>{val.mileage}</td>
-                <td>{val.condition}</td>
-                <td>{val.shoeAge}</td>
-              </tr>
-            )
-          })}
-        </table>
+//  //Fetch shoes from API
+//   useEffect(() => {
+//     const fetchShoes = async () => {
+//       const res = await fetch('http://localhost:6060/shoes')
+//       const data = await res.json()
+
+//       console.log(data)
+//     }
+
+//     fetchShoes()
+//   }, [])
+
+  //Fetch users from API
+//   useEffect(() => {
+//   const fetchUsers = async () => {
+//     const res = await fetch('http://localhost:6060/users')
+//     const data = await res.json()
+
+//     console.log(data)
+//   }
+
+//   fetchUsers()
+// }, [])
+
+
+  // const addShoe = async (shoe) => {
+  //   const res = await fetch('http://localhost:6060/shoes', {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(shoe),
+  //   })
+  //   const data = await res.json()
+
+  //   setShoes([...shoes, data])
+  // }
+
+
+  // useEffect(() => {
+  //   const fetchShoes = async () => {
+  //     const shoesFromServer = await fetchShoes()
+  //     setShoes(shoesFromServer)
+  //   }
+    
+  //   fetchShoes()
+  // }, [])
+
+
+  //Add Shoe
+  // const addShoe = async (shoe) => {
+  //   const res = await fetch('http://localhost:6060/shoes', {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json'
+  //     },
+  //     body: JSON.stringify(shoe),
+  //   })
+  //   const data = await res.json()
+
+  //   setShoes([...shoes, data])
+  // }
+
+  return(
+    <Router>
+      <div className="container">
+        <Header/>
+        <Routes>
+          <Route path="/" element={<Homepage/>}/>
+            <Route path="/Login" element={<Login/>}/>
+            <Route path="/Profile" element={<Profile onAdd={AddMileage}/>}/>
+        </Routes>
       </div>
-    );
-  }
+    </Router>
+  )
 }
-
-export default App;
