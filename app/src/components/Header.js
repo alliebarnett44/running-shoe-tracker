@@ -7,11 +7,21 @@ const Header = () => {
     fontSize: 20,
     color: "black",
     textAlign: "center",
-    paddingLeft: "80%",
+    paddingLeft: "5%",
+  }
+  const styleObj2 = {
+    fontSize: 20,
+    color: "black",
+    textAlign: "center",
+    paddingLeft: "65%",
   }
   return (
     <header>
-      <h1 className='header'>ShoeLife <Link to='/Login' style={styleObj}>Login</Link> </h1> 
+      <h1 className='header'>
+        ShoeLife 
+        <Link to='/' style={styleObj2}>Homepage</Link>
+        <Link to='/Login' style={styleObj}>Login</Link> 
+      </h1> 
     </header>
   )
 }

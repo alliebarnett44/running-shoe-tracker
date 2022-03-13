@@ -11,6 +11,8 @@ import Login from './components/Login'
 import Homepage from "./components/Homepage";
 import AddShoe from "./components/AddShoe";
 import Profile from "./components/Profile";
+import AddMileage from "./components/AddMileage";
+
 
 export default function App() {
   
@@ -88,7 +90,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Homepage/>}/>
             <Route path="/Login" element={<Login/>}/>
-            <Route path="/Profile" element={<Profile/>}/>
+            <Route path="/Profile" element={<Profile onAdd={AddMileage}/>}/>
         </Routes>
       </div>
     </Router>

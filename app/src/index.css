@@ -11,7 +11,7 @@ body {
 }
 
 .header{
-  background-color: gray;
+  background-color: rgb(132, 190, 243);
   padding: 20px;
   font-size: 50px;
 }
@@ -20,18 +20,23 @@ body {
   background-color: black;
   color: white;
   display: inline-block;
-  padding: 5px 10px;
+  padding: 5px;
   font-family: inherit;
   cursor: pointer;
 }
 
 .btn-block {
   display: block;
-  width: 100%;
+  width: 50%;
+  margin: 0;
 }
 
 .form-control {
-  margin: 20px 0;
+  margin: 10px 5px;
+}
+
+.form-control-2 {
+  margin: 30px 5px;
 }
 
 .form-control label {
@@ -46,6 +51,10 @@ body {
   font-size: 17px;
 }
 
+#add-mileage{
+  font-size: 13px;
+}
+
 .form-control-check {
   display: flex;
   align-items: center;
@@ -54,11 +63,10 @@ body {
 
 .add-form{
   max-width: 500px;
-  margin: 30px auto;
+  margin: 20px;
   overflow: auto;
-  min-height: 300px;
-  border: 1px solid black;
-  padding: 30px;
+  min-height: 150px;
+  padding: 10px;
 }
 
 .go-back{
@@ -70,4 +78,27 @@ body {
   font-size: 20px;
   color: black;
   padding-left: 90%
+}
+
+.container{
+  /* max-width: 1000px; */
+	/* margin-right:auto; */
+	/* margin-left:auto; */
+	/* justify-content:center; */
+	align-items:center;
+	/* min-height:100vh; */
+}
+
+.table{
+  font-size: 20px;
+  color: black;
+  margin: 30px 20px;
+  border: 1px solid black;
+}
+
+.table-header{
+  font-size: 30px;
+  font-weight: bold;
+	width:100%;
+	background: plum;
 }

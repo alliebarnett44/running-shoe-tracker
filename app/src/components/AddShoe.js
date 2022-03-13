@@ -1,36 +1,33 @@
-// import React from 'react'
-// import { useState } from 'react'
+import React from 'react'
+import { useState } from 'react'
 
-// const AddShoe = ({ onAdd }) => {
-//   const[shoe, setShoe] = useState('')
-//   const[mileage, setMileage] = useState('')
+const AddShoe = () => {
+  const[addMileage, setAddMileage] = useState('');
+  const[addShoe, setAddShoe] = useState('');
 
-//   const onSubmit = (e) => {
-//     e.preventDefault()
-//     if(!shoe) {
-//       alert('Add New Shoe')
-//       return
-//     } else {
-//       onAdd({shoe, mileage});
-//       setShoe('');
-//       setMileage('');
-//     }}
+  const onSubmit = (e) => {
+    e.preventDefault()
+    if(!addMileage || !addShoe) {
+      alert('Please Enter a Mileage')
+      return
+    } else {
+      console.log(addMileage & addShoe)
+    }
+  }
+  
+  return (
+    <form className='add-form' onSubmit={onSubmit}>
+        <div className='form-control'>
+          <label>Add Another Shoe</label>
+          <input type='text' placeholder='Add Shoe Brand' value={addShoe} onChange={(e) => setAddShoe(e.target.value)}/>
+        </div>
+        <div className='form-control-2'>
+          <label id='add-mileage'>Add Mileage</label>
+          <input type='text' placeholder='Add Mileage' value={addMileage} onChange={(e) => setAddMileage(e.target.value)}/>
+        </div>
+        <input className='btn btn-block' type='submit' value='Add New Shoe'/>
+      </form>
+  )
+}
 
-
-//   return (
-//     <form className='add-form' onSubmit={onSubmit}>
-//       <div className='form-control'>
-//         <label>Add A New Shoe</label>
-//         <input type='text' placeholder='Add New Shoe' value={shoe} onChange={(e) => setShoe(e.target.value)}/>
-//       </div>
-//       <div className='form-control'>
-//         <label>Add Mileage</label>
-//         <input type='number' placeholder='Add Mileage' value={mileage} onChange={(e) => setMileage(e.target.value)}/>
-//       </div>
-      
-//       <input className='btn btn-block' type='submit' value='Save Shoe'/>
-//     </form>
-//   )
-// }
-
-// export default AddShoe
+export default AddShoe

@@ -167,33 +167,4 @@ const addShoe = async (req: Request, res: Response, next: NextFunction) => {
 
 export default { getShoes, getShoe, updateShoe, deleteShoe, addShoe, getUser, getUsers, validateUser};
 
-// const getShoesResult: runnerRecord[] = [
-//     {
-//         userName: 'Allie',
-//         shoeBrand: 'Brooks',
-//         mileage: 500,
-//         condition: Condition.BITCH_GET_OFF_THE_ROAD,
-//         shoeAge: 10
-//     },
-//     {
-//         userName: 'Neal',
-//         shoeBrand: 'Altra',
-//         mileage: 2,
-//         condition: Condition.LIKE_NEW,
-//         shoeAge: 1
-//     },
-//     {
-//         userName: 'Cluadig',
-//         shoeBrand: 'Brooks',
-//         mileage: 100,
-//         condition: Condition.GOOD,
-//         shoeAge: 3
-//     },
-//     {
-//         userName: 'Bob',
-//         shoeBrand: 'Paws',
-//         mileage: 350,
-//         condition: Condition.BAD,
-//         shoeAge: 5
-//     },
-// ]
+

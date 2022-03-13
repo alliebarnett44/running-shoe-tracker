@@ -1,28 +1,29 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useState, useEffect, useRef, useLocation } from 'react'
+import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye,faEyeSlash, faLessThan } from "@fortawesome/free-solid-svg-icons";
+import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
 const Login = () => {
 
-  const[username, setUsername] = useState('');
+  const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
   const[show,setshow]=useState(false)
   const pass = useRef();
   const navigate = useNavigate();
 
+
   const handleSubmit = e => {
     const validateUser = async () => {
       console.log("validating user");
-      const res = await fetch(`http://localhost:6060/butt?email=${username}&password=${password}`);
+      const res = await fetch(`http://localhost:6060/butt?email=${email}&password=${password}`);
       const data = await res.json();
       
       if(data['userValidated']) {
-        navigate("/Profile", { state: username });
+        navigate("/Profile", { state: { email: email} });
       } else {
         alert('fuck')
       }
@@ -54,8 +55,8 @@ const Login = () => {
           <input 
             type='text' 
             placeholder='Enter Your Email'
-            value={username}
-            onChange={e => setUsername(e.target.value)}/>
+            value={email}
+            onChange={e => setEmail(e.target.value)}/>
         </div>
         <div className='form-control'>
           <label>Password</label>
@@ -67,10 +68,11 @@ const Login = () => {
             onChange={e => setPassword(e.target.value)}/>
             {show ? <i onClick={showpassword}>{Eye}</i>:<i onClick={showpassword}>{EyeSlash}</i>}
         </div>
-        <input className='btn btn-block' type='submit' value='Enter' />
+        <input className='btn btn-block' type='submit' value='Enter'/>
       </form>
       <div className='go-back'>
-      <Link to='/'> Go Back </Link>
+      <Link to='/'> Back to Home </Link>
+      {/* <Profile sendToProfile={data}/> */}
     </div>
     </>
   )
@@ -128,3 +130,7 @@ export default Login
   //   })
   //   setshow(false)
   // }
+
+
+
+
