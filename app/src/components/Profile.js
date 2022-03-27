@@ -4,39 +4,42 @@ import AddMileage from "./AddMileage";
 import AddShoe from './AddShoe'
 
 function Profile() {
-  const[runnerRecord, setRunnerRecord] = useState({});
+  const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
   const location = useLocation();
   
 
   useEffect(() => {
     console.log(location)
-    const fetchShoesForUser = async () => {
-      const response = await fetch(`http://localhost:6060/shoes/${location.state.email}`);
+    const fetchShoesForRunner = async () => {
+      const response = await fetch(`http://localhost:6060/runner/${location.state.email}`);
       const data = await response.json()
       console.log(data)
-      setRunnerRecord(data.runnerRecord)
+      setRunnerShoeRecords(data.shoe_records)
     } 
-    fetchShoesForUser();
+    fetchShoesForRunner();
   }, [])
   
-  console.log(runnerRecord);
+  console.log(runnerShoeRecords);
 
   return (
     <div className='container'>
+      <h2>Hello {location.state.email}!</h2>
       <table className='table'>
         <tbody>
           <tr className='table-header'>
-            <th>User Name</th>
             <th>Shoe Brand</th>
             <th>Mileage</th>
             <th>Condition</th>
           </tr>
-          <tr className='table-data'>
-            <td>{runnerRecord.email}</td>
-            <td>{runnerRecord.shoe_brand}</td>
-            <td>{runnerRecord.mileage}</td>
-            <td>{runnerRecord.condition}</td>
-          </tr>
+          {
+            runnerShoeRecords.map((shoeRecord) => (
+              <tr className='table-data'>
+                <td>{shoeRecord.shoe_brand}</td>
+                <td>{shoeRecord.mileage}</td>
+                <td>{shoeRecord.condition}</td>
+              </tr>
+            ))
+          }
         </tbody>
       </table>
       <AddMileage />
