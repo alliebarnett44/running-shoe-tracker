@@ -4,10 +4,13 @@ import controller from '../controllers/controllers';
 const router = express.Router();
 
 router.get('/shoes', controller.getShoes);
-router.get('/shoes/:email', controller.getShoe);
-router.put('/shoes/:id', controller.updateShoe);
+router.get('/runner/:email', controller.getRunner);
+router.put('/shoes', controller.updateShoe);
 router.delete('/shoes/:id', controller.deleteShoe);
-router.post('/shoes', controller.addShoe);
+router.post('/runner', controller.addShoeRecord);
+router.post('/user', controller.addUser);
+router.post('/shoe/email', controller.addNewShoe)
+router.put('/runner', controller.updatePassword)
 
 router.get('/user', controller.getUser);
 router.get('/users', controller.getUsers);

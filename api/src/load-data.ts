@@ -42,22 +42,64 @@ import { ExitStatus } from "typescript";
   shoeRecordsCollection.insertMany(
       [
         {
-          "email": "allie.barnett44@gmail.com",
-          "shoe_brand": "Brooks",
-          "mileage": "100",
-          "condition": "good",
+          email: "allie.barnett44@gmail.com",
+          shoe_records: [
+            {
+              shoe_brand: "Brooks",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Reebok",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Nike",
+              mileage: "100",
+              condition: "good"
+            }
+          ]
         },
         {
-          "email": "nealajpatel@gmail.com",
-          "shoe_brand": "Asics",
-          "mileage": "500",
-          "condition": "UGLY",
+          email: "nealajpatel@gmail.com",
+          shoe_records: [
+            {
+              shoe_brand: "Brooks",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Reebok",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Nike",
+              mileage: "100",
+              condition: "good"
+            }
+          ]
         },
         {
-          "email": "annaharden@gmail.com",
-          "shoe_brand": "Nike",
-          "mileage": "200",
-          "condition": "bad",
+          email: "annaharden@gmail.com",
+          shoe_records: [
+            {
+              shoe_brand: "Brooks",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Reebok",
+              mileage: "100",
+              condition: "good"
+            },
+            {
+              shoe_brand: "Nike",
+              mileage: "100",
+              condition: "good"
+            }
+          ]
         }
       ]
     )
