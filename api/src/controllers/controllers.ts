@@ -138,48 +138,36 @@ const addShoeRecord = async (req: Request, res: Response, next: NextFunction) =>
     return res.status(500).json({err});
   }}
 
-  //add/insert a user
-  const addUser = async (req: Request, res: Response, next: NextFunction) => {
-    const user = req.body as User
-    try {
-      const collection = await getCollection("users");
-      const userRecord = await collection.insertOne(user);
-      console.log(userRecord);
-      if (userRecord) {
-        return res.status(200).json(userRecord);
-      }
-      return res.status(400).json({});
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({err});
-    }}
-
-  // // get the data from req.body
-  // let title: string = req.body.title;
-  // let body: string = req.body.body;
-  // // add the shoe
-  // let response: AxiosResponse = await axios.post(`https://jsonplaceholder.typicode.com/shoes`, {
-  //   title,
-  //   body
-  // });
-  // // return response
-  // return res.status(200).json({
-  //   message: response.data
-  // });
-// };
+//add/insert a user
+const addUser = async (req: Request, res: Response, next: NextFunction) => {
+  const user = req.body as User
+  try {
+    const collection = await getCollection("users");
+    const userRecord = await collection.insertOne(user);
+    console.log(userRecord);
+    if (userRecord) {
+      return res.status(200).json(userRecord);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
+  }}
 
 
-// updating mileage
+// updating shoe-brand/mileage
 async function updateShoe(req: Request, res: Response, next: NextFunction) {
-  const data = req.body as ShoeRecord
-  const filter = {"email": req.body.email}
-  const updateShoeRecord = {$set: {"shoe_records": data}}
+  const data = req.body.shoe_record as ShoeRecord
+  const filter = {"email": req.body.email, "shoe_records.id": data.id}
+  const updateShoeRecord = {$set: {"shoe_records.$": data}}
+  console.log(data)
+  console.log(filter)
   try {
     const collection = await getCollection("shoe_records");
-    const updatedShoeRecord = await collection.updateOne(filter, updateShoeRecord);
-    console.log(updatedShoeRecord);
-    if (updatedShoeRecord) {
-      return res.status(200).json(updatedShoeRecord);
+    const newShoeRecord = await collection.updateOne(filter, updateShoeRecord);
+    console.log(newShoeRecord);
+    if (newShoeRecord) {
+      return res.status(200).json(newShoeRecord);
     }
     return res.status(400).json({});
   } catch (err) {
@@ -188,58 +176,61 @@ async function updateShoe(req: Request, res: Response, next: NextFunction) {
   }}
 
   
-  async function addNewShoe(req: Request, res: Response, next: NextFunction) {
-
+async function addNewShoe(req: Request, res: Response, next: NextFunction) {
+  const newShoe = req.body.shoe_record as ShoeRecord
+  try {
+    const collection = await getCollection("shoe_records");
+    const updatedShoeRecord = await collection.updateOne({ email: req.body.email },
+    { $push: { shoe_records: newShoe }});
+    console.log(updatedShoeRecord);
+    if (updatedShoeRecord) {
+      return res.status(200).json(updatedShoeRecord);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
   }
+}
 
-  async function updatePassword(req: Request, res: Response, next: NextFunction) {
-    const data = req.body as User
-    const filter = {"email": data.email}
-    const newPassword = {$set: {"password": data.password}}
-    console.log(data)
-    console.log(req.body)
-    try {
-      const collection = await getCollection("users");
-      const updatedPassword = await collection.updateOne(filter, newPassword);
-      console.log(updatedPassword);
-      if (updatedPassword) {
-        return res.status(200).json(updatedPassword);
-      }
-      return res.status(400).json({});
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({err});
-    }}
+async function updatePassword(req: Request, res: Response, next: NextFunction) {
+  const data = req.body as User
+  const filter = {"email": data.email}
+  const newPassword = {$set: {"password": data.password}}
+  console.log(data)
+  console.log(req.body)
+  try {
+    const collection = await getCollection("users");
+    const updatedPassword = await collection.updateOne(filter, newPassword);
+    console.log(updatedPassword);
+    if (updatedPassword) {
+      return res.status(200).json(updatedPassword);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
+  }}
     
 
-  
-  // // get the shoe id from the req.params
-  // let id: string = req.params.id;
-  // // get the data from req.body
-  // let title: string = req.body.title ?? null;
-  // let body: string = req.body.body ?? null;
-  // // update the shoe
-  // let response: AxiosResponse = await axios.put(`https://jsonplaceholder.typicode.com/shoes/${id}`, {
-  //   ...(title && { title }),
-  //   ...(body && { body })
-  // });
-  // // return response
-  // return res.status(200).json({
-  //   message: response.data
-  // });
-// }
 
 // deleting a shoe
 const deleteShoe = async (req: Request, res: Response, next: NextFunction) => {
-  // get the shoe id from req.params
-  let id: string = req.params.id;
-  // delete the shoe
-  let response: AxiosResponse = await axios.delete(`https://jsonplaceholder.typicode.com/shoes/${id}`);
-  // return response
-  return res.status(200).json({
-    message: 'shoe deleted successfully'
-  });
-};
+  const shoe = req.body.shoe_record as ShoeRecord
+  try {
+    const collection = await getCollection("shoe_records");
+    const shoeToRemove = await collection.updateOne({ email: req.body.email },
+    { $pull: {shoe_records: {shoe: shoe} }});
+    console.log(shoeToRemove);
+    if (shoeToRemove) {
+      return res.status(200).json(shoeToRemove);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
+  }
+}
 
 
 export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword };

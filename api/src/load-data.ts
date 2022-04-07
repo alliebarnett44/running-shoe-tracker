@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { ExitStatus } from "typescript";
+import { v4 as uuidv4} from "uuid";
 
 (async () => {
 
@@ -45,16 +45,19 @@ import { ExitStatus } from "typescript";
           email: "allie.barnett44@gmail.com",
           shoe_records: [
             {
+              id: uuidv4(),
               shoe_brand: "Brooks",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Reebok",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Nike",
               mileage: "100",
               condition: "good"
@@ -65,16 +68,19 @@ import { ExitStatus } from "typescript";
           email: "nealajpatel@gmail.com",
           shoe_records: [
             {
+              id: uuidv4(),
               shoe_brand: "Brooks",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Reebok",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Nike",
               mileage: "100",
               condition: "good"
@@ -85,16 +91,19 @@ import { ExitStatus } from "typescript";
           email: "annaharden@gmail.com",
           shoe_records: [
             {
+              id: uuidv4(),
               shoe_brand: "Brooks",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Reebok",
               mileage: "100",
               condition: "good"
             },
             {
+              id: uuidv4(),
               shoe_brand: "Nike",
               mileage: "100",
               condition: "good"
