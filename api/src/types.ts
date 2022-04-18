@@ -11,13 +11,15 @@ export interface Runner extends WithId<Document> {
 }
 
 export interface ShoeRecord extends WithId<Document> {
+  id: string;
   shoe_brand: string;
   mileage: number;
   condition: Condition;
 }
 
 export enum Condition {
+  New = 'new',
   Good = 'good',
   Bad  = 'bad',
-  Ugly = 'ugly',
+  Ugly = 'bitch get off the road',
 }
