@@ -9,9 +9,7 @@ import {
 import Header from './components/Header'
 import Login from './components/Login'
 import Homepage from "./components/Homepage";
-import AddShoe from "./components/AddShoe";
 import Profile from "./components/Profile";
-import AddMileage from "./components/AddMileage";
 
 
 export default function App() {
@@ -90,7 +88,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Homepage/>}/>
             <Route path="/Login" element={<Login/>}/>
-            <Route path="/Profile" element={<Profile onAdd={AddMileage}/>}/>
+            <Route path="/Profile" element={<Profile/>}/>
         </Routes>
       </div>
     </Router>

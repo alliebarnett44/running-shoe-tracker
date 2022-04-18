@@ -220,7 +220,7 @@ const deleteShoe = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const collection = await getCollection("shoe_records");
     const shoeToRemove = await collection.updateOne({ email: req.body.email },
-    { $pull: {shoe_records: {shoe: shoe} }});
+    { $pull: {shoe_records: shoe }});
     console.log(shoeToRemove);
     if (shoeToRemove) {
       return res.status(200).json(shoeToRemove);
@@ -232,5 +232,29 @@ const deleteShoe = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+//updating mileage
+const updateMileage = async (req: Request, res: Response, next: NextFunction) => {
+  // const mileage = req.body.mileage
+  // const shoeRecord = req.body.shoe_records as ShoeRecord
+  try {
+    const collection = await getCollection("shoe_records");
+    const newMileage = await collection.updateOne({ email:req.body.email, "shoe_records.shoe_brand": req.body.shoe_brand },
+      { $inc: { "shoe_records.$.mileage" : req.body.miles_added } });
 
-export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword };
+
+    console.log(newMileage);
+    if (newMileage) {
+      return res.status(200).json(newMileage);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
+  }
+}
+
+
+// db.contributor.update({name: "Priya", "points._id": "g_1"}, {$inc: {"points.$.a":10}})
+
+
+export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword, updateMileage };

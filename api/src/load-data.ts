@@ -47,19 +47,19 @@ import { v4 as uuidv4} from "uuid";
             {
               id: uuidv4(),
               shoe_brand: "Brooks",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Reebok",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Nike",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             }
           ]
@@ -70,19 +70,19 @@ import { v4 as uuidv4} from "uuid";
             {
               id: uuidv4(),
               shoe_brand: "Brooks",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Reebok",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Nike",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             }
           ]
@@ -93,19 +93,19 @@ import { v4 as uuidv4} from "uuid";
             {
               id: uuidv4(),
               shoe_brand: "Brooks",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Reebok",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             },
             {
               id: uuidv4(),
               shoe_brand: "Nike",
-              mileage: "100",
+              mileage: 100,
               condition: "good"
             }
           ]

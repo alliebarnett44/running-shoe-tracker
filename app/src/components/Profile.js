@@ -1,25 +1,31 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
-import AddMileage from "./AddMileage";
-import AddShoe from './AddShoe'
+import AddRun from "./AddRun";
+import AddShoe from './AddShoe';
+import AddMileage from './AddMileage';
+import RemoveShoe from './RemoveShoe';
+import { v4 as uuid } from 'uuid';
 
 function Profile() {
-  const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
   const location = useLocation();
+  const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
   
-
+  const email = location.state.email
+  
+  const fetchShoesForRunner = async () => {
+    const response = await fetch(`http://localhost:6060/runner/${email}`);
+    const data = await response.json()
+    console.log(data)
+    setRunnerShoeRecords(data.shoe_records)
+  } 
+ 
   useEffect(() => {
     console.log(location)
-    const fetchShoesForRunner = async () => {
-      const response = await fetch(`http://localhost:6060/runner/${location.state.email}`);
-      const data = await response.json()
-      console.log(data)
-      setRunnerShoeRecords(data.shoe_records)
-    } 
     fetchShoesForRunner();
-  }, [])
-  
+  }, [setRunnerShoeRecords])
+
   console.log(runnerShoeRecords);
+  
 
   return (
     <div className='container'>
@@ -33,7 +39,7 @@ function Profile() {
           </tr>
           {
             runnerShoeRecords.map((shoeRecord) => (
-              <tr className='table-data'>
+              <tr className='table-data' key={shoeRecord.id}>
                 <td>{shoeRecord.shoe_brand}</td>
                 <td>{shoeRecord.mileage}</td>
                 <td>{shoeRecord.condition}</td>
@@ -42,11 +48,23 @@ function Profile() {
           }
         </tbody>
       </table>
-      <AddMileage />
-      <AddShoe />
+    
+      <AddMileage email = {email} fetchShoesForRunner = {fetchShoesForRunner}/>
+      <AddShoe email = {email} fetchShoesForRunner = {fetchShoesForRunner}/>
+      <AddRun shoes = {runnerShoeRecords} />
       <a href='./login'>Back to Login Page</a>
+
     </div>
   )
 }
   
   export default Profile
+
+
+  // <h2> Add a Shoe </h2>
+  //     <form>
+  //       <input type='text' name='shoe_brand' required='required' placeholder='Enter Shoe Brand' onChange={handleAddFormChange}></input>
+  //       <input type='text' name='mileage' required='required' placeholder='Enter Mileage' onChange={handleAddFormChange}></input>
+  //       <input type='text' name='condition' required='required' placeholder='Enter Condition' onChange={handleAddFormChange}></input>
+  //       <button type='submit' onSubmit={handleSubmit}>Add</button>
+  //     </form>

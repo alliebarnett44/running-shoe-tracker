@@ -11,6 +11,7 @@ router.post('/runner', controller.addShoeRecord);
 router.post('/user', controller.addUser);
 router.put('/shoe', controller.addNewShoe)
 router.put('/runner', controller.updatePassword)
+router.put('/mileage', controller.updateMileage)
 
 router.get('/user', controller.getUser);
 router.get('/users', controller.getUsers);

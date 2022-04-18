@@ -18,7 +18,8 @@ export interface ShoeRecord extends WithId<Document> {
 }
 
 export enum Condition {
+  New = 'new',
   Good = 'good',
   Bad  = 'bad',
-  Ugly = 'ugly',
+  Ugly = 'bitch get off the road',
 }
