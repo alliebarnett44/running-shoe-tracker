@@ -10,6 +10,7 @@ import Header from './components/Header'
 import Login from './components/Login'
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
+import SignUp from "./components/SignUp";
 
 
 export default function App() {
@@ -89,6 +90,7 @@ export default function App() {
           <Route path="/" element={<Homepage/>}/>
             <Route path="/Login" element={<Login/>}/>
             <Route path="/Profile" element={<Profile/>}/>
+            <Route path="/Signup" element={<SignUp/>}/>
         </Routes>
       </div>
     </Router>

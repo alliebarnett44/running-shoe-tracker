@@ -4,7 +4,7 @@ import React from 'react'
 const Homepage = () => {
   return (
     <div>
-      <p>This is the Homepage</p>
+      <p>This is the Homepage BITCH</p>
     </div>
     
   )

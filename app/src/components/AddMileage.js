@@ -1,48 +1,137 @@
 import React from 'react'
 import { useState } from 'react'
 import { nanoid } from "nanoid";
+import { Modal, Button } from 'react-bootstrap'
 
-const AddMileage = ( {email, fetchShoesForRunner} ) => {
+const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) => {
 
-  const [shoeBrand, setShoeBrand] = useState("")
-  const [mileage, setMileage] = useState(0)
+  const [addMileage, setAddMileage] = useState(0)
   const [message, setMessage] = useState('')
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const newMileage = mileage + addMileage;
+
+  const getNewRecord = () => {
+    updateCondition()
+    fetchShoesForRunner()
+  }
+
+  const updateCondition = async () => {
+  try{
+    let res = await fetch(`http://localhost:6060/condition`, {
+        method: "PUT",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: shoe,
+          total_miles: newMileage
+        }),
+    });
+       if (res.status === 200) {
+          setMessage("Miles Added");
+        } else {
+          setMessage("Some error occured");
+        }}
+         catch (err) {
+          console.log(err)
+        }
+      }    
 
 
   let handleSubmit = async (e) => {
     e.preventDefault();
+    if(addMileage < 0) {
+      console.log('no negative numbers');
+      return(null)
+    }
     try {
       let res = await fetch(`http://localhost:6060/mileage`, {
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: email,
-          shoe_brand: shoeBrand,
-          miles_added: mileage
+          id: shoe,
+          shoe_brand: shoe_brand,
+          miles_added: addMileage,
         }),
       });
       if (res.status === 200) {
-        setMessage("Miles Added");
-        fetchShoesForRunner();
+        getNewRecord();
       } else {
         setMessage("Some error occured");
       }
     } catch (err) {
       console.log(err);
     }
+    // updateCondition()
+    setAddMileage('')
   };
 
 
   return (
-      <form className='add-form' onSubmit={handleSubmit} >
-        <div className='form-control'>
-          <label>Add A Run</label>
-          <input className='form-control' type='text' name='shoe_brand' required='required' placeholder='Enter Shoe Used on Run' onChange={(e) => setShoeBrand(e.target.value)}></input>
-          <input className='form-control' type='number' name='mileage' required='required' placeholder='Enter Run Mileage' onChange={(e) => setMileage(parseFloat(e.target.value))}></input>
-          <button className='btn btn-block' type='submit'>Add</button>
-        </div>
-      </form>
+    <>
+    <Button variant="primary" onClick={handleShow}>
+        Add Run
+    </Button>
+    <div className='modal'>
+      <Modal show={show} onHide={handleClose}>
+        <form className='add-form' onSubmit={handleSubmit} >
+          <div className='form-control'>
+            <Modal.Header closeButton>
+              <Modal.Title>Add a Run</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <input className='form-control' type='number' name='mileage' required='required' placeholder='Enter Run Mileage' value={addMileage} onChange={(e) => setAddMileage(parseFloat(e.target.value))}></input>
+            </Modal.Body>
+            <Modal.Footer> 
+              {/* <Button className='btn btn-block' type='submit'> Add </Button>
+              <Button variant="primary" onClick={handleClose}> Save Changes</Button> */}
+              <Button className='btn btn-block' onClick={handleClose} type='submit'>Add</Button>
+            </Modal.Footer>
+          </div>
+        </form>
+      </Modal>
+    </div>
+    </>
   )
 }
 
 export default AddMileage
+
+
+
+
+// const Example = () => {
+//   const [show, setShow] = useState(false);
+
+//   const handleClose = () => setShow(false);
+//   const handleShow = () => setShow(true);
+
+//   return (
+//     <>
+//       <Button variant="primary" onClick={handleShow}>
+//         Launch demo modal
+//       </Button>
+//     <div className='modal'>
+//       <Modal show={show} onHide={handleClose}>
+//         <Modal.Header closeButton>
+//           <Modal.Title>Modal heading</Modal.Title>
+//         </Modal.Header>
+//         <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+//         <Modal.Footer>
+//           <Button variant="secondary" onClick={handleClose}>
+//             Close
+//           </Button>
+//           <Button variant="primary" onClick={handleClose}>
+//             Save Changes
+//           </Button>
+//         </Modal.Footer>
+//       </Modal>
+//     </div>
+//     </>
+//   );
+// }
+
+// export default Example
+

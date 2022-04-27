@@ -33,6 +33,21 @@ async function getCollection(collection: string) {
   return await database.collection(collection);
 }
 
+const getShoeCondition = (mileage: number) => {
+  if(mileage <= 100){
+    return 'new'
+  }
+  else if (mileage > 100 && mileage <= 300){
+    return 'good'
+  }
+  else if(mileage > 300 && mileage <=500){
+    return 'bad'
+  }
+  else if(mileage > 500){
+    return 'bitch get off the road'
+  }
+}
+
 
 // Get All Users
 const getUsers = async (req: Request, res: Response) => {
@@ -89,6 +104,27 @@ const validateUser = async (req: Request, res: Response) => {
   }
 };
 
+//Validate New User
+const validateNewUser = async (req: Request, res: Response) => {
+  try {
+    const collection = await getCollection("users");
+    const userRecord = await collection.findOne({
+       email: req.query.email
+    })
+    if (userRecord) {
+      return res.status(400).json(
+        console.log('This user already exists!')
+      );
+      }
+  } catch (err) {
+    console.log(err);
+
+    return res.status(500).json({
+      userValidated: false
+    });
+  }
+};
+
 // getting all shoes
 const getShoes = async (req: Request, res: Response) => {
   let runnerRecords;
@@ -136,23 +172,28 @@ const addShoeRecord = async (req: Request, res: Response, next: NextFunction) =>
   } catch (err) {
     console.log(err);
     return res.status(500).json({err});
-  }}
+  }};
 
 //add/insert a user
 const addUser = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.body as User
   try {
     const collection = await getCollection("users");
-    const userRecord = await collection.insertOne(user);
-    console.log(userRecord);
-    if (userRecord) {
-      return res.status(200).json(userRecord);
-    }
-    return res.status(400).json({});
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({err});
-  }}
+    let validateUser = await collection.findOne({ email: req.body.email });
+    if(validateUser){
+      return res.status(400).send('That user already exisits!');
+    } else {
+        const userRecord = await collection.insertOne(user);
+        console.log(userRecord);
+        if (userRecord) {
+          return res.status(200).json(userRecord);
+        }
+        return res.status(400).json({});
+      }}
+      catch (err) {
+        console.log(err);
+        return res.status(500).json({err});
+}};
 
 
 // updating shoe-brand/mileage
@@ -211,7 +252,7 @@ async function updatePassword(req: Request, res: Response, next: NextFunction) {
     console.log(err);
     return res.status(500).json({err});
   }}
-    
+
 
 
 // deleting a shoe
@@ -231,6 +272,28 @@ const deleteShoe = async (req: Request, res: Response, next: NextFunction) => {
     return res.status(500).json({err});
   }
 }
+const updateCondition = async (req: Request, res: Response, next: NextFunction) => {
+  const newCondition = getShoeCondition(req.body.total_miles)
+  const filter = {"shoe_records.id": req.body.id}
+  const updateShoeRecord = {$set: {"shoe_records.$.condition": newCondition}}
+  console.log(newCondition)
+  console.log(filter)
+  console.log(updateShoeRecord)
+  try {
+    const collection = await getCollection("shoe_records")
+    const mileage = await collection.updateOne(filter, updateShoeRecord);
+    console.log(mileage);
+    if (mileage) {
+      return res.status(200).json(mileage);
+    }
+    return res.status(400).json({});
+  }
+    catch (err) {
+      console.log(err);
+      return res.status(500).json({err});
+  }
+} 
+
 
 //updating mileage
 const updateMileage = async (req: Request, res: Response, next: NextFunction) => {
@@ -238,12 +301,13 @@ const updateMileage = async (req: Request, res: Response, next: NextFunction) =>
   // const shoeRecord = req.body.shoe_records as ShoeRecord
   try {
     const collection = await getCollection("shoe_records");
-    const newMileage = await collection.updateOne({ email:req.body.email, "shoe_records.shoe_brand": req.body.shoe_brand },
+    const newMileage = await collection.updateOne({ "shoe_records.id":req.body.id, "shoe_records.shoe_brand": req.body.shoe_brand },
       { $inc: { "shoe_records.$.mileage" : req.body.miles_added } });
-
 
     console.log(newMileage);
     if (newMileage) {
+      getShoeCondition(req.body.total_miles)
+      console.log(getShoeCondition(req.body.total_miles))
       return res.status(200).json(newMileage);
     }
     return res.status(400).json({});
@@ -257,4 +321,4 @@ const updateMileage = async (req: Request, res: Response, next: NextFunction) =>
 // db.contributor.update({name: "Priya", "points._id": "g_1"}, {$inc: {"points.$.a":10}})
 
 
-export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword, updateMileage };
+export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword, updateMileage, validateNewUser, updateCondition };

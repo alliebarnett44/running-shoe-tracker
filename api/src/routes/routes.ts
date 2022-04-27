@@ -9,9 +9,10 @@ router.put('/shoes', controller.updateShoe);
 router.put('/delete', controller.deleteShoe);
 router.post('/runner', controller.addShoeRecord);
 router.post('/user', controller.addUser);
-router.put('/shoe', controller.addNewShoe)
-router.put('/runner', controller.updatePassword)
-router.put('/mileage', controller.updateMileage)
+router.put('/shoe', controller.addNewShoe);
+router.put('/runner', controller.updatePassword);
+router.put('/mileage', controller.updateMileage);
+router.put('/condition', controller.updateCondition);
 
 router.get('/user', controller.getUser);
 router.get('/users', controller.getUsers);

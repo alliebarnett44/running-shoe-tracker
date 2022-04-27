@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Logo from '../logos/logo.png'
 
 
 const Header = () => {
@@ -7,20 +8,15 @@ const Header = () => {
     fontSize: 20,
     color: "black",
     textAlign: "center",
-    paddingLeft: "5%",
   }
-  const styleObj2 = {
-    fontSize: 20,
-    color: "black",
-    textAlign: "center",
-    paddingLeft: "65%",
-  }
+ 
   return (
     <header>
       <h1 className='header'>
-        ShoeLife 
-        <Link to='/' style={styleObj2}>Homepage</Link>
-        <Link to='/Login' style={styleObj}>Login</Link> 
+        <img src={Logo} alt="Logo" className='logo'/>
+        <Link to='/' className='menu1'>Homepage</Link>
+        <Link to='/Login' className='menu'>Login</Link> 
+        <Link to='/SignUp' className='menu'>Sign Up</Link>
       </h1> 
     </header>
   )
@@ -28,5 +24,3 @@ const Header = () => {
 
 export default Header
 
-
-{/* <p style={styleObj}>Sign Out</p> */}
