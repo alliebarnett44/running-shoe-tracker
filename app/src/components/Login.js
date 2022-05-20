@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { Button } from 'react-bootstrap'
 
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
@@ -33,14 +34,7 @@ const Login = () => {
     e.preventDefault();
 
   }
-    //Fetch users from API
-    // useEffect(() => {
-    //   const fetchUsers = async () => {
-    //     const res = await fetch(`http://localhost:6060/butt/?email=${username}.com&password=${password}`)
-    //     const data = await res.json()
-    
-    //     console.log(data)
-    //   }
+   
 
   const showpassword = () =>{
     setshow(!show)
@@ -68,7 +62,7 @@ const Login = () => {
             onChange={e => setPassword(e.target.value)}/>
             {show ? <i onClick={showpassword}>{Eye}</i>:<i onClick={showpassword}>{EyeSlash}</i>}
         </div>
-        <input className='btn btn-block' type='submit' value='Enter'/>
+        <Button className='btn btn-block' type='submit' value='Enter'>Submit</Button>
       </form>
       <div className='go-back'>
       <Link to='/'> Back to Home </Link>
@@ -81,11 +75,6 @@ const Login = () => {
 export default Login
 
 
-    
-    //   fetchUsers()
-    // }, [handleSubmit])
-  
-
   // function performValidation() {
   //   if(username.length > 0 && password.length > 0){
   //     console.log("Good job");
@@ -96,40 +85,7 @@ export default Login
       
  
 
-  // async function loginUser(credentials) {
-  //   const response = await fetch('https://localhost:6060/users', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(credentials)
-  //   })
-  //     const content = await response.json();
-  //       console.log(content);
-  // }
-
-  // const handleSubmitClick = async (e) => {
-  //     e.preventDefault();
-  //     const response = await loginUser({
-  //       username,
-  //       password
-  //     });
-  // }
- 
-
-  // async function getData(){
-  //   const response = await fetch(`http://localhost:6060/shoes/${username}`)
-  //   const data = await response.json
-  //   console.log(data)
-  // }
-      //Fetch API stuff here 
-
-  //   setformdata({
-  //     email:'',
-  //     password: ''
-  //   })
-  //   setshow(false)
-  // }
+  
 
 
 
