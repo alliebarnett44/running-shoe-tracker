@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 import { Modal, Button, Form } from 'react-bootstrap'
 
 
-const AddShoe = ( {email, fetchShoesForRunner} ) => {
+const AddFirstShoe = ( {email, fetchShoesForRunner} ) => {
 
   const [shoeBrand, setShoeBrand] = useState("")
   const [mileage, setMileage] = useState(0)
@@ -41,17 +41,17 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
       return(null)
     }
     try {
-      let res = await fetch(`http://localhost:6060/shoe`, {
-        method: "PUT",
+      let res = await fetch(`http://localhost:6060/runner`, {
+        method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email,
-          shoe_record: {
+          shoe_records: [{
             id: nanoid(),
             shoe_brand: shoeBrand,
             mileage: mileage,
             condition: getCondition(mileage)
-          }
+          }]
         }),
       });
       if (res.status === 200) {
@@ -96,7 +96,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
   
 }
 
-export default AddShoe
+export default AddFirstShoe
 
 
 

@@ -1,9 +1,8 @@
 import React from 'react'
-import { useState } from 'react'
-import { nanoid } from "nanoid";
+import { useState, useEffect } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) => {
+const AddMileage = ( {email, fetchShoesForRunner, shoe_id, shoe_brand, mileage } ) => {
 
   const [addMileage, setAddMileage] = useState(0)
   const [message, setMessage] = useState('')
@@ -15,9 +14,14 @@ const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) 
   const newMileage = mileage + addMileage;
 
   const getNewRecord = () => {
-    updateCondition()
+    // updateCondition()
     fetchShoesForRunner()
   }
+
+  // useEffect(() => {
+  //   updateCondition()
+  // }, [])
+
 
   const updateCondition = async () => {
   try{
@@ -25,7 +29,7 @@ const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) 
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: shoe,
+          id: shoe_id,
           total_miles: newMileage
         }),
     });
@@ -47,13 +51,14 @@ const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) 
       return(null)
     }
     try {
-      let res = await fetch(`http://localhost:6060/mileage`, {
+      let res = await fetch(`http://localhost:6060/mileagecondition`, {
         method: "PUT",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          id: shoe,
+          id: shoe_id,
           shoe_brand: shoe_brand,
           miles_added: addMileage,
+          total_miles: newMileage
         }),
       });
       if (res.status === 200) {
@@ -64,7 +69,7 @@ const AddMileage = ( {email, fetchShoesForRunner, shoe, shoe_brand, mileage } ) 
     } catch (err) {
       console.log(err);
     }
-    // updateCondition()
+    updateCondition()
     setAddMileage('')
   };
 

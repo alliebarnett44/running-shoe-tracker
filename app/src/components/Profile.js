@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom';
+import { Table, TableBody, TableRow } from '@mui/material'
 import AddShoe from './AddShoe';
+import AddFirstShoe from './AddFirstShoe';
 import RemoveShoeModal from './RemoveShoeModal'
 import AddMileage from './AddMileage';
 import nikeLogo from '../logos/nikelogo.png'
@@ -14,11 +16,14 @@ import asicsLogo from '../logos/asicslogo.png'
 
 
 
+
 function Profile() {
   const location = useLocation();
   const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
+  const[firstName, setFirstName] = useState('');
   const [message, setMessage] = useState('');
   const [show, setShow] = useState(false);
+  const [data, setData] = useState({})
   
   const email = location.state.email
 
@@ -27,11 +32,19 @@ function Profile() {
   //Load Shoe Data
   const fetchShoesForRunner = async () => {
     const response = await fetch(`http://localhost:6060/runner/${email}`);
-    const data = await response.json()
-    console.log(data)
+    const data = await response.json();
     setRunnerShoeRecords(data.shoe_records);
+    setData(data);
   } 
 
+  //Load User Data
+  const fetchUser = async () => {
+    const response = await fetch(`http://localhost:6060/user/${email}`);
+    const data = await response.json();
+    setFirstName(data.userRecord.first_name);
+  } 
+
+  //Get Shoe Logo
   const shoeLogo = (brand) => {
     if(brand === 'Nike' || brand === 'nike'){
       return(nikeLogo)
@@ -77,45 +90,67 @@ function Profile() {
   } catch (err) {
       console.log(err);}
     }
+  
+  const isEmptyObject = (obj) => {
+      return JSON.stringify(obj) === '{}';
+  }
 
 
   useEffect(() => {
     console.log(location)
+    fetchUser();
     fetchShoesForRunner();
-  }, [setRunnerShoeRecords])
-
-  console.log(runnerShoeRecords);
+  }, [setFirstName, setRunnerShoeRecords])
   
 
+if(isEmptyObject(data)){
+  return (
+    <div>
+      <div>Hello {firstName}!</div>
+      <p>Start keeping track of your running shoes by adding shoes below.</p>
+      <AddFirstShoe email={email} fetchShoesForRunner={fetchShoesForRunner}/>
+    </div>
+  ) 
+} 
+else if (!runnerShoeRecords.length) {
+  return (
+    <div>
+      <div>Hello {firstName}!</div>
+      <p>Start keeping track of your running shoes by adding shoes below.</p>
+      <AddShoe className="button" email={email} fetchShoesForRunner={fetchShoesForRunner}/>
+    </div>
+  ) 
+} 
+else {
   return (
     <div className='container'>
-      <h2>Hello {location.state.email}! </h2>
-      <table className='table'>
-        <tbody>
-          <tr className='table-header'>
+      <h2>Hello {firstName}! </h2>
+      <Table className='table'>
+        <TableBody>
+          <TableRow className='table-header'>
             <th></th>
             <th>Shoe Brand</th>
             <th>Mileage</th>
             <th>Condition</th>
             <th className='edit'>Edit</th>
-          </tr>
+          </TableRow>
           {
             runnerShoeRecords.map((shoeRecord) => (
-              <tr className='table-data' key={shoeRecord.id}>
+              <TableRow className='table-data' key={shoeRecord.id}>
                 <td><img src={shoeLogo(shoeRecord.shoe_brand)} alt="Logo" className='table-logo'/></td>
                 <td>{shoeRecord.shoe_brand}</td>
                 <td>{shoeRecord.mileage}</td>
                 <td>{shoeRecord.condition}</td>
                 <td>
-                  <AddMileage shoe={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email}/>
+                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email}/> 
                   <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
                 </td>
-              </tr>
+              </TableRow>
             ))
           }
-        </tbody>
-      </table>
-      <AddShoe email={email} fetchShoesForRunner={fetchShoesForRunner}/>
+        </TableBody>
+      </Table>
+      <AddShoe className="button" email={email} fetchShoesForRunner={fetchShoesForRunner}/>
       <br></br>
       <br></br>
       <></>
@@ -123,9 +158,10 @@ function Profile() {
 
     </div>
   )
-}
+}}
+
   
-  export default Profile
+export default Profile
 
 
           

@@ -5,6 +5,8 @@ const Homepage = () => {
   return (
     <div>
       <p>This is the Homepage BITCH</p>
+      <br/>
+      <p>Keep track of your running shoes. Never run on old shoes!</p>
     </div>
     
   )

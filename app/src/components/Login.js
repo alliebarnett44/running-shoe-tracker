@@ -16,17 +16,27 @@ const Login = () => {
   const pass = useRef();
   const navigate = useNavigate();
 
+  function isEmptyObject(obj){
+    return JSON.stringify(obj) === '{}';
+}
 
   const handleSubmit = e => {
     const validateUser = async () => {
       console.log("validating user");
       const res = await fetch(`http://localhost:6060/butt?email=${email}&password=${password}`);
       const data = await res.json();
+
+      const response = await fetch(`http://localhost:6060/runner/${email}`);
+      const shoe_record_data = await response.json();
+      console.log(shoe_record_data)
       
-      if(data['userValidated']) {
-        navigate("/Profile", { state: { email: email} });
+      if(data['userValidated'] && shoe_record_data['{}']){
+        alert('new user')
+      }
+      else if(data['userValidated']) {
+        navigate("/Profile", { state: { email: email} } );
       } else {
-        alert('fuck')
+        alert('Incorrect email/password')
       }
       
     }
