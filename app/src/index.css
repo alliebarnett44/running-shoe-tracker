@@ -12,8 +12,17 @@
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
   align-items: center;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+}
+.my-container{
+  margin-left: 0;
+  padding: 0;
+  width: 100%
 }
 
 .header{
@@ -22,10 +31,16 @@ body {
   display: flex;
   margin: 0px;
   padding: 0px;
+  width:100%;
 }
 
+.nav-item-dropdown{
+  align: right;
+}
+
+
 .btn{
-  background-color: aqua;
+  background-color: blue;
   color: white;
   display: inline-block;
   padding: 5px;
@@ -94,29 +109,24 @@ body {
   padding-left: 90%
 }
 
-.container{
-  /* max-width: 1000px; */
-	/* margin-right:auto; */
-	/* margin-left:auto; */
-	/* justify-content:center; */
-	align-items:center;
-	/* min-height:100vh; */
-}
 
 .table{
-  font-size: 20px;
+  /* font-size: 20px;
   color: black;
   margin: 30px 20px;
   border: 2px solid black;
   margin-left:auto;
-  margin-right: auto
+  margin-right: auto;
+  vertical-align: middle; */
+  width: 50%;
+  padding: 20px;
 }
 
 .table-header{
   font-size: 30px;
   font-weight: bold;
 	width:100%;
-	background: plum;
+	background: rgb(180, 178, 178);
 }
 
 .table-data{
@@ -144,8 +154,17 @@ th{
   color: black;
   padding-left: 5%;
   text-align: center;
-  padding-top: 25px;
+  padding-top: 30px;
   display: flex;
+}
+#dropdown-basic-button{
+  font-size: 20px;
+  color: black;
+  padding-left: 10px;
+  text-align: center;
+  padding-top: 30px;
+  display: flex;
+  align: end;
 }
 
 .menu1{
@@ -164,4 +183,48 @@ th{
   padding-bottom: 5px;
   padding-left: 0px;
   padding-right: 0px;
+}
+
+.error-message{
+  color: red;
+  font-weight: bold;
+}
+
+
+.password-strength-meter {
+  text-align: left;
+}
+
+.password-strength-meter-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 250px;
+  height: 8px;
+}
+
+.password-strength-meter-progress::-webkit-progress-bar {
+  background-color: #eee;
+  border-radius: 3px;
+}
+
+.password-strength-meter-label {
+  font-size: 14px;
+}
+
+.password-strength-meter-progress::-webkit-progress-value {
+  border-radius: 2px;
+  background-size: 35px 20px, 100% 100%, 100% 100%;
+}
+
+.strength-Weak::-webkit-progress-value {
+  background-color: #F25F5C;
+}
+.strength-Fair::-webkit-progress-value {
+  background-color: #FFE066;
+}
+.strength-Good::-webkit-progress-value {
+  background-color: #247BA0;
+}
+.strength-Strong::-webkit-progress-value {
+  background-color: #70C1B3;
 }

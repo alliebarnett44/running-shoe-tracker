@@ -24,17 +24,23 @@ import { v4 as uuidv4} from "uuid";
       {
         "email": "allie.barnett44@gmail.com",
         "username": "ambarn",
-        "password": "app"
+        "password": "app",
+        "first_name": "Allie",
+        "last_name": "Barnett"
       },
       {
         "email": "nealajpatel@gmail.com",
         "username": "bigboi",
-        "password": "bitch" 
+        "password": "bitch",
+        "first_name": "Neal",
+        "last_name": "Patel"
       },
       {
         "email": "annaharden@gmail.com",
         "username": "anna",
-        "password": "harden"
+        "password": "harden",
+        "first_name": "Anna",
+        "last_name": "Harden"
       }
     ]
   )

@@ -13,9 +13,11 @@ router.put('/shoe', controller.addNewShoe);
 router.put('/runner', controller.updatePassword);
 router.put('/mileage', controller.updateMileage);
 router.put('/condition', controller.updateCondition);
+router.put('/mileagecondition', controller.updateMileageCondtition);
 
-router.get('/user', controller.getUser);
+router.get('/user/:email', controller.getUser);
 router.get('/users', controller.getUsers);
 router.get('/butt', controller.validateUser);
+router.get('/newuser', controller.validateNewUser);
 
 export = router;

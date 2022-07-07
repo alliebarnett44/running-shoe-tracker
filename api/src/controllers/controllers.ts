@@ -70,7 +70,7 @@ const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const collection = await getCollection("users");
     userRecord = await collection.findOne({
-      email: req.query.email
+      email: req.params.email
     });
     console.log(userRecord);
   } catch (err) {
@@ -112,10 +112,13 @@ const validateNewUser = async (req: Request, res: Response) => {
        email: req.query.email
     })
     if (userRecord) {
-      return res.status(400).json(
-        console.log('This user already exists!')
-      );
+      return res.status(400).json({
+        userValidated: false
+      });
       }
+    return res.status(200).json({
+      uservalidated: true
+    })
   } catch (err) {
     console.log(err);
 
@@ -177,7 +180,9 @@ const addShoeRecord = async (req: Request, res: Response, next: NextFunction) =>
 //add/insert a user
 const addUser = async (req: Request, res: Response, next: NextFunction) => {
   const user = req.body as User
+  // const shoe_record = req.body.email
   try {
+    // const shoe_records_collection = await getCollection('shoe_records')
     const collection = await getCollection("users");
     let validateUser = await collection.findOne({ email: req.body.email });
     if(validateUser){
@@ -185,6 +190,7 @@ const addUser = async (req: Request, res: Response, next: NextFunction) => {
     } else {
         const userRecord = await collection.insertOne(user);
         console.log(userRecord);
+        // const newShoeRecord = await shoe_records_collection.insertOne(shoe_record) 
         if (userRecord) {
           return res.status(200).json(userRecord);
         }
@@ -299,11 +305,11 @@ const updateCondition = async (req: Request, res: Response, next: NextFunction) 
 const updateMileage = async (req: Request, res: Response, next: NextFunction) => {
   // const mileage = req.body.mileage
   // const shoeRecord = req.body.shoe_records as ShoeRecord
+  
   try {
     const collection = await getCollection("shoe_records");
     const newMileage = await collection.updateOne({ "shoe_records.id":req.body.id, "shoe_records.shoe_brand": req.body.shoe_brand },
       { $inc: { "shoe_records.$.mileage" : req.body.miles_added } });
-
     console.log(newMileage);
     if (newMileage) {
       getShoeCondition(req.body.total_miles)
@@ -317,8 +323,34 @@ const updateMileage = async (req: Request, res: Response, next: NextFunction) =>
   }
 }
 
+//updating mileage
+const updateMileageCondtition = async (req: Request, res: Response, next: NextFunction) => {
+  // const mileage = req.body.mileage
+  // const shoeRecord = req.body.shoe_records as ShoeRecord
+  const newCondition = getShoeCondition(req.body.total_miles)
+  const filter = {"shoe_records.id": req.body.id}
+  const updateShoeRecord = {$set: {"shoe_records.$.condition": newCondition}}
+  
+  try {
+    const collection = await getCollection("shoe_records");
+    const newMileage = await collection.updateOne({ "shoe_records.id":req.body.id, "shoe_records.shoe_brand": req.body.shoe_brand },
+      { $inc: { "shoe_records.$.mileage" : req.body.miles_added } });
+    const BrandNewCondition = await collection.updateOne(filter, updateShoeRecord);
+    console.log(newMileage);
+    if (newMileage) {
+      getShoeCondition(req.body.total_miles)
+      console.log(getShoeCondition(req.body.total_miles))
+      return res.status(200).json(newMileage && BrandNewCondition);
+    }
+    return res.status(400).json({});
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({err});
+  }
+}
 
-// db.contributor.update({name: "Priya", "points._id": "g_1"}, {$inc: {"points.$.a":10}})
 
 
-export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword, updateMileage, validateNewUser, updateCondition };
+
+
+export default { getShoes, getRunner, updateShoe, deleteShoe, addShoeRecord, getUser, getUsers, addUser, validateUser, addNewShoe, updatePassword, updateMileage, validateNewUser, updateCondition, updateMileageCondtition };
