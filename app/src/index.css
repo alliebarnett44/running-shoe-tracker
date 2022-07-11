@@ -34,8 +34,10 @@ body {
   width:100%;
 }
 
-.nav-item-dropdown{
-  align: right;
+.dropdown{
+  width: 100%;
+  float: right;
+  color: black;
 }
 
 
@@ -132,6 +134,8 @@ body {
 .table-data{
   align-items: center;
   align-content: center;
+  text-align: center;
+  display: inline;
 }
 
 th{
@@ -160,11 +164,14 @@ th{
 #dropdown-basic-button{
   font-size: 20px;
   color: black;
+  padding-right: flex;
   padding-left: 10px;
-  text-align: center;
+  text-align: right;
+  align-items: flex-end;
   padding-top: 30px;
   display: flex;
-  align: end;
+  float: right;
+  width:100%;
 }
 
 .menu1{

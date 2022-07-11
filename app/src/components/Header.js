@@ -1,4 +1,5 @@
 import React from 'react'
+import { HeaderContainer } from '../styles/Header.style.js'
 import { Link, useLocation } from 'react-router-dom'
 import Logo from '../logos/logo.png'
 import { FaCog } from 'react-icons/fa'
@@ -9,6 +10,7 @@ import { ThemeProvider } from 'react-bootstrap'
 
 const Header = () => {
   const { pathname } = useLocation();
+  const navDropdownTitle = (<FaCog style={{color: 'black', cursor: 'pointer', margin: '5px', paddingTop: '20px', paddingLeft: '10px', fontsize: '2px'}}/>)
 
 if(pathname==="/"){
   return (
@@ -20,10 +22,12 @@ if(pathname==="/"){
         {/* <Link to='/' className='menu1'>Homepage</Link>
         <Link to='/Login' className='menu'>Login</Link> 
         <Link to='/SignUp' className='menu'>Create an Account</Link> */}
-        <NavDropdown align="center" id="dropdown-basic-button" title="Login/Sign Up" paddingLeft="100px">
+      <div float="right" className="dropdown" >
+        <NavDropdown align="right" title="Login/Sign Up" id="dropdown-basic-button" paddingLeft="100px">
           <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
           <NavDropdown.Item href="/Signup">Sign Up</NavDropdown.Item>
         </NavDropdown>
+      </div>
       </h1> 
     </Container>
   </Navbar>
@@ -40,12 +44,15 @@ if(pathname==="/"){
           {/* <Link to='/' className='menu1'>Homepage</Link>
           <Link to='/Login' className='menu'>Login</Link> 
           <Link to='/SignUp' className='menu'>Create an Account</Link> */}
-          <Link to="/" className='menu'>Sign Out</Link>
-          <NavDropdown align="center" id="dropdown-basic-button"  paddingLeft="100px">
+          {/* <Link to="/" className='menu'>Sign Out</Link> */}
+        {/* <NavDropdown align="center" id="dropdown-basic-button"  paddingLeft="100px">
           <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
           <NavDropdown.Item href="/Signup">Sign Up</NavDropdown.Item>
+        </NavDropdown> */}
+        <NavDropdown title = {<div style={{display: "inline-block"}}><FaCog style={{color: 'black', cursor: 'pointer', margin: '5px', paddingTop: '20px', paddingleft: '10px', fontsize: '2px'}}/></div>} id="dropdown-basic-button">
+          <NavDropdown.Item href="/Settings">User Settings</NavDropdown.Item>
+          <NavDropdown.Item href="/">Log Out</NavDropdown.Item>
         </NavDropdown>
-          <FaCog style={{color: 'dark-gray', cursor: 'pointer', margin: '5px', paddingTop: '20px', paddingLeft: '10px', fontsize: '2px'}}/>
         </h1> 
       </Container>
     </Navbar>

@@ -84,15 +84,15 @@ export default function App() {
 
   return(
     <Router>
-      <div className="container">
+      {/* <div className="container"> */}
         <Header/>
         <Routes>
           <Route path="/" element={<Homepage/>}/>
-            <Route path="/Login" element={<Login/>}/>
-            <Route path="/Profile" element={<Profile/>}/>
-            <Route path="/Signup" element={<SignUp/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/profile" element={<Profile/>}/>
+            <Route path="/signup" element={<SignUp/>}/>
         </Routes>
-      </div>
+      {/* </div> */}
     </Router>
   )
 }

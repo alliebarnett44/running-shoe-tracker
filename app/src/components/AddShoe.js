@@ -8,6 +8,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
 
   const [shoeBrand, setShoeBrand] = useState("")
   const [mileage, setMileage] = useState(0)
+  const [shoeModel, setShoeModel] = useState("")
   
   
   const [show, setShow] = useState(false);
@@ -49,6 +50,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
           shoe_record: {
             id: nanoid(),
             shoe_brand: shoeBrand,
+            shoe_model: shoeModel,
             mileage: mileage,
             condition: getCondition(mileage)
           }
@@ -65,6 +67,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
     }
     setShoeBrand('');
     setMileage('');
+    setShoeModel('');
   };
 
   return (
@@ -81,6 +84,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
               </Modal.Header>
               <Modal.Body>
                 <input className='form-control' type='text' name='shoe_brand' required='required' value={shoeBrand} placeholder='Enter a Shoe Brand' onChange={(e) => setShoeBrand(e.target.value)}></input>
+                <input className='form-control' type='text' name='shoe_model' required='required' value={shoeModel} placeholder='Enter Shoe Model' onChange={(e) => setShoeModel(e.target.value)}></input>
                 <input className='form-control' type='number' name='mileage' required='required' value={mileage} placeholder='Enter Current Mileage' onChange={(e) => setMileage(parseFloat(e.target.value))}></input>
               </Modal.Body>
               <Modal.Footer>
