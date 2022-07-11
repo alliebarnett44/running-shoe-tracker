@@ -13,12 +13,14 @@ import brooksLogo from '../logos/brookslogo.png'
 import mizunoLogo from '../logos/mizunologo.png'
 import nbLogo from '../logos/newbalancelogo.png'
 import asicsLogo from '../logos/asicslogo.png'
+import Login from './Login.js'
 
 
 
 
 function Profile() {
   const location = useLocation();
+  const[token, setToken] = useState({});
   const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
   const[firstName, setFirstName] = useState('');
   const [message, setMessage] = useState('');
@@ -28,6 +30,7 @@ function Profile() {
   const email = location.state.email
 
   const handleClose = () => setShow(false);
+
   
   //Load Shoe Data
   const fetchShoesForRunner = async () => {
@@ -103,6 +106,11 @@ function Profile() {
   }, [setFirstName, setRunnerShoeRecords])
   
 
+if(!token){
+    return(
+      <Login setToken={`${setToken}`}/>
+    )
+}
 if(isEmptyObject(data)){
   return (
     <div>
@@ -130,6 +138,7 @@ else {
           <TableRow className='table-header'>
             <th></th>
             <th>Shoe Brand</th>
+            <th>Shoe Model</th>
             <th>Mileage</th>
             <th>Condition</th>
             <th className='edit'>Edit</th>
@@ -139,11 +148,11 @@ else {
               <TableRow className='table-data' key={shoeRecord.id}>
                 <td><img src={shoeLogo(shoeRecord.shoe_brand)} alt="Logo" className='table-logo'/></td>
                 <td>{shoeRecord.shoe_brand}</td>
+                <td>{shoeRecord.shoe_model}</td>
                 <td>{shoeRecord.mileage}</td>
                 <td>{shoeRecord.condition}</td>
                 <td>
-                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email}/> 
-                  <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
+                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email} /> <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
                 </td>
               </TableRow>
             ))

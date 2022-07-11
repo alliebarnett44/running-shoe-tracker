@@ -13,6 +13,7 @@ export interface Runner extends WithId<Document> {
 export interface ShoeRecord extends WithId<Document> {
   id: string;
   shoe_brand: string;
+  shoe_model: string;
   mileage: number;
   condition: Condition;
 }

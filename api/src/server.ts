@@ -34,6 +34,12 @@ router.use((req, res, next) => {
 /** Routes */
 router.use('/', routes);
 
+// router.use('/login', (req, res) => {
+//   res.send({
+//     token: 'test123'
+//   })
+// })
+
 /** Error handling */
 router.use((req, res, next) => {
     const error = new Error('not found');

@@ -2,8 +2,9 @@ import React from 'react'
 
 
 const Homepage = () => {
+
   return (
-    <div>
+    <div className="container">
       <p>This is the Homepage BITCH</p>
       <br/>
       <p>Keep track of your running shoes. Never run on old shoes!</p>

@@ -4,11 +4,12 @@ import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Button } from 'react-bootstrap'
+import { PropTypes } from 'prop-types'
 
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
-const Login = () => {
+const Login = ({ setToken }) => {
 
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
@@ -19,8 +20,24 @@ const Login = () => {
   function isEmptyObject(obj){
     return JSON.stringify(obj) === '{}';
 }
+  
+  // async function loginUser(credentials) {
+  //   return fetch('http://localhost:6060/login', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(credentials)
+  //   })
+  //     .then(data => data.json())
+  // }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
+    // const token = await loginUser({
+    //   email,
+    //   password
+    // });
+    // setToken(token);
     const validateUser = async () => {
       console.log("validating user");
       const res = await fetch(`http://localhost:6060/butt?email=${email}&password=${password}`);
@@ -42,9 +59,9 @@ const Login = () => {
     }
     validateUser();
     e.preventDefault();
-
+    // console.log(token)
   }
-   
+  
 
   const showpassword = () =>{
     setshow(!show)
@@ -81,6 +98,10 @@ const Login = () => {
     </>
   )
   }
+
+  // Login.propTypes = {
+  //   setToken: PropTypes.func.isRequired
+  // }
 
 export default Login
 
