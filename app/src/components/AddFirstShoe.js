@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { nanoid } from "nanoid";
-import { Modal, Button, Form } from 'react-bootstrap'
+import { Modal, Button } from 'react-bootstrap'
 
 
 const AddFirstShoe = ( {email, fetchShoesForRunner} ) => {

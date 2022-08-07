@@ -34,13 +34,13 @@ const SignUp = () => {
     if(password === confirmPassword) {
       setShowMessage('')
     } 
-    if(email != '' && username !=''){
+    if(email !== '' && username !==''){
       setShowMessage('')
     }
     else {
       return
     }
-  }, )
+  }, [password, confirmPassword, email, username])
 
   const handleClose = () => {
     setShowModal(false);
