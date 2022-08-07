@@ -1,6 +1,6 @@
 resource "aws_dynamodb_table" "running_shoe_tracker" {
-  name             = var.project_name
-  hash_key         = "id"
+  name           = var.project_name
+  hash_key       = "id"
   billing_mode   = "PROVISIONED"
   read_capacity  = 5
   write_capacity = 5
@@ -88,14 +88,14 @@ data "archive_file" "lambda" {
 resource "aws_lambda_function" "running_shoe_tracker" {
 
   function_name = var.project_name
-  filename       = data.archive_file.lambda.output_md5
+  filename      = data.archive_file.lambda.output_path
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda.handler"
   runtime       = "nodejs16.x"
 }
 
 resource "aws_api_gateway_rest_api" "api" {
-  name        = var.project_name
+  name = var.project_name
 }
 
 resource "aws_api_gateway_resource" "shoes" {
@@ -149,7 +149,7 @@ resource "aws_api_gateway_integration" "get_users_integration" {
 }
 
 resource "aws_api_gateway_deployment" "apideploy" {
-  depends_on = [ aws_api_gateway_integration.get_shoes_integration, aws_api_gateway_integration.get_users_integration]
+  depends_on = [aws_api_gateway_integration.get_shoes_integration, aws_api_gateway_integration.get_users_integration]
 
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name  = "prod"
