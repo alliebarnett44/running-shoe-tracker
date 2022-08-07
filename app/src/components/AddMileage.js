@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
 const AddMileage = ( {email, fetchShoesForRunner, shoe_id, shoe_brand, mileage } ) => {

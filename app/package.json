@@ -9,6 +9,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@mui/material": "^5.8.2",
+    "@okta/okta-auth-js": "*",
+    "@okta/okta-react": "*",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

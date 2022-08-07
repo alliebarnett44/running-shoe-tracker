@@ -9,7 +9,7 @@ import { PropTypes } from 'prop-types'
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
-const Login = ({ setToken }) => {
+const Login = ({ }) => {
 
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
@@ -20,24 +20,10 @@ const Login = ({ setToken }) => {
   function isEmptyObject(obj){
     return JSON.stringify(obj) === '{}';
 }
-  
-  // async function loginUser(credentials) {
-  //   return fetch('http://localhost:6060/login', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(credentials)
-  //   })
-  //     .then(data => data.json())
-  // }
+
 
   const handleSubmit = async e => {
-    // const token = await loginUser({
-    //   email,
-    //   password
-    // });
-    // setToken(token);
+ 
     const validateUser = async () => {
       console.log("validating user");
       const res = await fetch(`http://localhost:6060/butt?email=${email}&password=${password}`);
@@ -59,7 +45,6 @@ const Login = ({ setToken }) => {
     }
     validateUser();
     e.preventDefault();
-    // console.log(token)
   }
   
 
@@ -93,26 +78,17 @@ const Login = ({ setToken }) => {
       </form>
       <div className='go-back'>
       <Link to='/'> Back to Home </Link>
-      {/* <Profile sendToProfile={data}/> */}
+  
     </div>
     </>
   )
   }
 
-  // Login.propTypes = {
-  //   setToken: PropTypes.func.isRequired
-  // }
+
 
 export default Login
 
 
-  // function performValidation() {
-  //   if(username.length > 0 && password.length > 0){
-  //     console.log("Good job");
-  //   } else{
-  //     alert("Please enter username/password");
-  //   }
-  // }
       
  
 

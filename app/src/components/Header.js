@@ -1,9 +1,8 @@
 import React from 'react'
-import { HeaderContainer } from '../styles/Header.style.js'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import Logo from '../logos/logo.png'
 import { FaCog } from 'react-icons/fa'
-import { Navbar, Container, DropdownButton, Dropdown } from 'react-bootstrap'
+import { Navbar, Container } from 'react-bootstrap'
 import { NavDropdown } from 'react-bootstrap'
 import { ThemeProvider } from 'react-bootstrap'
 
@@ -12,20 +11,18 @@ const Header = () => {
   const { pathname } = useLocation();
   const navDropdownTitle = (<FaCog style={{color: 'black', cursor: 'pointer', margin: '5px', paddingTop: '20px', paddingLeft: '10px', fontsize: '2px'}}/>)
 
-if(pathname==="/"){
+if(pathname==="/" || pathname==="/signup"){
   return (
   <ThemeProvider prefixes={{ container : "my-container"}}>
   <Navbar>
     <Container>
       <h1 className='header'>
         <img src={Logo} alt="Logo" className='logo' href='#/'/>
-        {/* <Link to='/' className='menu1'>Homepage</Link>
-        <Link to='/Login' className='menu'>Login</Link> 
-        <Link to='/SignUp' className='menu'>Create an Account</Link> */}
       <div float="right" className="dropdown" >
         <NavDropdown align="right" title="Login/Sign Up" id="dropdown-basic-button" paddingLeft="100px">
           <NavDropdown.Item href="/Login">Login</NavDropdown.Item>
           <NavDropdown.Item href="/Signup">Sign Up</NavDropdown.Item>
+          <NavDropdown.Item href="/Profile">Profile</NavDropdown.Item>
         </NavDropdown>
       </div>
       </h1> 
