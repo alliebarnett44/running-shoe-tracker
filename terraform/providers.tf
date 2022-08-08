@@ -5,6 +5,14 @@ terraform {
       version = "4.25.0"
     }
   }
+
+  cloud {
+    organization = "alliebarnett44"
+
+    workspaces {
+      name = "running-shoe-tracker"
+    }
+  }
 }
 
 provider "aws" {

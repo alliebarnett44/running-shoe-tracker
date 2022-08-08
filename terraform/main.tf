@@ -14,69 +14,36 @@ resource "aws_iam_role_policy" "lambda_policy" {
   name = "lambda_write_policy"
   role = aws_iam_role.lambda_role.id
 
-  policy = <<POLICY
-  {
+  policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
       {
         "Sid": "DynamoWritePolicy",
         "Action": [
-          "dynamodb:BatchGetItem",
-          "dynamodb:GetItem",
-          "dynamodb:Query",
-          "dynamodb:Scan",
-          "dynamodb:BatchWriteItem",
-          "dynamodb:PutItem",
-          "dynamodb:UpdateItem"
+          "dynamodb:*"
         ],
         "Effect": "Allow",
         "Resource": "${aws_dynamodb_table.running_shoe_tracker.arn}"
       }
     ]
-  }
-  POLICY
+  })
 }
 
 resource "aws_iam_role" "lambda_role" {
   name = "${var.project_name}-lambda-role"
 
-  assume_role_policy = <<POLICY
-  {
+  assume_role_policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
       {
         "Effect": "Allow",
         "Principal": {
-          "Service":
-            "lambda.amazonaws.com"
-
+          "Service": "lambda.amazonaws.com"
         },
         "Action": "sts:AssumeRole"
       }
     ]
-  }
-  POLICY
-}
-
-resource "aws_iam_role" "read_role" {
-  name = "${var.project_name}-read-role"
-
-  assume_role_policy = <<POLICY
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "Service":
-            "lambda.amazonaws.com"
-
-        },
-        "Action": "sts:AssumeRole"
-      }
-    ]
-  }
-  POLICY
+  })
 }
 
 data "archive_file" "lambda" {
@@ -91,7 +58,7 @@ resource "aws_lambda_function" "running_shoe_tracker" {
   filename      = data.archive_file.lambda.output_path
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda.handler"
-  runtime       = "nodejs16.x"
+  runtime       = "nodejs12.x"
 }
 
 resource "aws_api_gateway_rest_api" "api" {
