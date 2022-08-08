@@ -15,15 +15,15 @@ resource "aws_iam_role_policy" "lambda_policy" {
   role = aws_iam_role.lambda_role.id
 
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Sid": "DynamoWritePolicy",
-        "Action": [
+        "Sid" : "DynamoWritePolicy",
+        "Action" : [
           "dynamodb:*"
         ],
-        "Effect": "Allow",
-        "Resource": "${aws_dynamodb_table.running_shoe_tracker.arn}"
+        "Effect" : "Allow",
+        "Resource" : "${aws_dynamodb_table.running_shoe_tracker.arn}"
       }
     ]
   })
@@ -33,14 +33,14 @@ resource "aws_iam_role" "lambda_role" {
   name = "${var.project_name}-lambda-role"
 
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": "lambda.amazonaws.com"
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "lambda.amazonaws.com"
         },
-        "Action": "sts:AssumeRole"
+        "Action" : "sts:AssumeRole"
       }
     ]
   })
