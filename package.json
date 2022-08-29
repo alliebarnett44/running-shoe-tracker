@@ -3,19 +3,38 @@
     "react-router-dom": "^6.2.1"
   },
   "dependencies": {
+    "@okta/okta-auth-js": "*",
+    "@okta/okta-react": "*",
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "cors": "^2.8.5",
     "dotenv": "^11.0.0",
     "env-cmd": "^10.1.0",
-    "express": "^4.17.2",
+    "express": "^4.18.1",
     "mongoose": "^6.1.6",
     "nodemon": "^2.0.15",
     "react-bootstrap": "^2.2.3",
     "react-password-checklist": "^1.3.3",
-    "@okta/okta-auth-js": "*",
-    "@okta/okta-react": "*",
+    "serverless-http": "^3.0.2",
     "styled-components": "^5.3.5",
     "zxcvbn": "^4.4.2"
-  }
+  },
+  "name": "running-shoe-tracker",
+  "description": "# Running Shoe Tracker Workflows (Allie's FLOW from Front to Back)",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alliebarnett44/running-shoe-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alliebarnett44/running-shoe-tracker/issues"
+  },
+  "homepage": "https://github.com/alliebarnett44/running-shoe-tracker#readme"
 }

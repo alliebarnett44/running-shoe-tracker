@@ -48,7 +48,7 @@ resource "aws_iam_role" "lambda_role" {
 
 data "archive_file" "lambda" {
   type        = "zip"
-  source_file = "${path.module}/lambda.js"
+  source_file = "${path.module}/lambda_handler.py"
   output_path = "${path.module}/lambda.zip"
 }
 
@@ -57,66 +57,41 @@ resource "aws_lambda_function" "running_shoe_tracker" {
   function_name = var.project_name
   filename      = data.archive_file.lambda.output_path
   role          = aws_iam_role.lambda_role.arn
-  handler       = "lambda.handler"
-  runtime       = "nodejs12.x"
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.9"
 }
 
 resource "aws_api_gateway_rest_api" "api" {
   name = var.project_name
 }
 
-resource "aws_api_gateway_resource" "shoes" {
+resource "aws_api_gateway_resource" "api" {
   rest_api_id = aws_api_gateway_rest_api.api.id
   parent_id   = aws_api_gateway_rest_api.api.root_resource_id
-  path_part   = "shoes"
+  path_part   = "api"
 
 }
 
-resource "aws_api_gateway_method" "get_shoes" {
+resource "aws_api_gateway_method" "post" {
   rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.shoes.id
-  http_method   = "GET"
+  resource_id   = aws_api_gateway_resource.api.id
+  http_method   = "POST"
   authorization = "NONE"
 }
 
-resource "aws_api_gateway_resource" "users" {
+resource "aws_api_gateway_integration" "proxy_integration" {
   rest_api_id = aws_api_gateway_rest_api.api.id
-  parent_id   = aws_api_gateway_rest_api.api.root_resource_id
-  path_part   = "users"
+  resource_id = aws_api_gateway_resource.api.id
+  http_method = aws_api_gateway_method.post.http_method
 
-}
-
-resource "aws_api_gateway_method" "get_users" {
-  rest_api_id   = aws_api_gateway_rest_api.api.id
-  resource_id   = aws_api_gateway_resource.users.id
-  http_method   = "GET"
-  authorization = "NONE"
-}
-
-resource "aws_api_gateway_integration" "get_shoes_integration" {
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.shoes.id
-  http_method = aws_api_gateway_method.get_shoes.http_method
-
-  integration_http_method = "GET"
-  type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.running_shoe_tracker.invoke_arn
-
-}
-
-resource "aws_api_gateway_integration" "get_users_integration" {
-  rest_api_id = aws_api_gateway_rest_api.api.id
-  resource_id = aws_api_gateway_resource.users.id
-  http_method = aws_api_gateway_method.get_users.http_method
-
-  integration_http_method = "GET"
+  integration_http_method = "POST"
   type                    = "AWS_PROXY"
   uri                     = aws_lambda_function.running_shoe_tracker.invoke_arn
 
 }
 
 resource "aws_api_gateway_deployment" "apideploy" {
-  depends_on = [aws_api_gateway_integration.get_shoes_integration, aws_api_gateway_integration.get_users_integration]
+  depends_on = [aws_api_gateway_integration.proxy_integration]
 
   rest_api_id = aws_api_gateway_rest_api.api.id
   stage_name  = "prod"

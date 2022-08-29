@@ -323,7 +323,7 @@ const updateMileage = async (req: Request, res: Response, next: NextFunction) =>
   }
 }
 
-//updating mileage
+//updating shoe condition based on mileage 
 const updateMileageCondtition = async (req: Request, res: Response, next: NextFunction) => {
   // const mileage = req.body.mileage
   // const shoeRecord = req.body.shoe_records as ShoeRecord

@@ -1,5 +1,6 @@
 import React from 'react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Form , FormGroup, FormControl, FormLabel, Button} from 'react-bootstrap';
 import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -12,6 +13,8 @@ const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
 const SignUp = () => {
   const[username, setUsername] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
   const[confirmPassword, setConfirmPassword] = useState('');
@@ -21,6 +24,7 @@ const SignUp = () => {
   const [showMessage, setShowMessage] = useState('');
   const[showConfirm, setShowConfirm] = useState(false)
   const [showErrorMessage, setShowErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if(password !== confirmPassword) {
@@ -104,6 +108,10 @@ const showpassword = () =>{
     pass.current.type = showConfirm ? 'password':'text';
     }
 
+const goToProfile = () => {
+  navigate("/profile", { state: { email: email} } )
+}
+
 
 
   
@@ -118,6 +126,22 @@ const showpassword = () =>{
             placeholder='Enter Your Email'
             value={email}
             onChange={e => setEmail(e.target.value)}/>
+        </FormGroup>
+        <FormGroup className='form-control'>
+          <FormLabel>Enter First Name</FormLabel>
+          <FormControl 
+            type='text' 
+            placeholder='Enter Your First Name'
+            value={firstName}
+            onChange={e => setFirstName(e.target.value)}/>
+        </FormGroup>
+        <FormGroup className='form-control'>
+          <FormLabel>Enter Your Last Name</FormLabel>
+          <FormControl 
+            type='text' 
+            placeholder='Enter Your Last Name'
+            value={lastName}
+            onChange={e => setLastName(e.target.value)}/>
         </FormGroup>
         <FormGroup className='form-control'>
           <FormLabel>Create Username</FormLabel>
@@ -157,7 +181,8 @@ const showpassword = () =>{
       <div className='modal'>
       <Modal show={showModal} onHide={handleClose}>
             <Modal.Body>
-              <Link to='/Login'> User created! Go to Sign In </Link>
+              {/* <Link to='/Login'> User created! Go to Sign In </Link> */}
+              <button onClick={goToProfile} >User created! Go to Profile </button>
             </Modal.Body>
             <Modal.Footer>
               <button className='btn btn-block' onClick={handleClose} type='submit'>Close</button>

@@ -152,6 +152,12 @@ th{
   padding-top: 15px;
   padding-bottom: 15px;
 }
+.photo{
+  height:800px;
+  width: 600px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
 
 .menu{
   font-size: 20px;

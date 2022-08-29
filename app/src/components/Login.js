@@ -37,7 +37,7 @@ const Login = ({ }) => {
         alert('new user')
       }
       else if(data['userValidated']) {
-        navigate("/Profile", { state: { email: email} } );
+        navigate("/profile", { state: { email: email} } );
       } else {
         alert('Incorrect email/password')
       }

@@ -103,7 +103,7 @@ function Profile() {
     console.log(location)
     fetchUser();
     fetchShoesForRunner();
-  }, [setFirstName, setRunnerShoeRecords])
+  }, [setRunnerShoeRecords, setFirstName])
   
 
 if(!token){

@@ -10,11 +10,15 @@ import Login from './components/Login'
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import SignUp from "./components/SignUp";
-import Protected from "./components/Protected"
+// import Protected from "./components/Protected"
 
 export default function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(null)
+  
+  // const logIn = () => {
+  //   setIsLoggedIn(true);
+  //   };
 
   return(
     <Router>
@@ -24,9 +28,9 @@ export default function App() {
           <Route path="/" element={<Homepage/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/profile"  element={
-               <Protected isLoggedIn={isLoggedIn}>
+              //  <Protected isLoggedIn={isLoggedIn}>
                   <Profile />
-              </Protected>
+              // </Protected>
             }/>
             <Route path="/signup" element={<SignUp/>}/>
         </Routes>

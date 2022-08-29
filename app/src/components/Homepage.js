@@ -1,4 +1,5 @@
 import React from 'react'
+import Allie from '../logos/allie.png'
 
 
 const Homepage = () => {
@@ -8,6 +9,7 @@ const Homepage = () => {
       <p>This is the Homepage BITCH</p>
       <br/>
       <p>Keep track of your running shoes. Never run on old shoes!</p>
+      <img src={Allie} alt="Logo" className='photo' href='#/'/>
     </div>
     
   )
