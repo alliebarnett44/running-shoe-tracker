@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { nanoid } from "nanoid";
+import { v4 as uuidv4 } from "uuid";
 import { Modal, Button } from 'react-bootstrap'
 
 
@@ -42,20 +42,35 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
       return(null)
     }
     try {
-      let res = await fetch(`http://localhost:6060/shoe`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: email,
-          shoe_record: {
-            id: nanoid(),
-            shoe_brand: shoeBrand,
-            shoe_model: shoeModel,
-            mileage: mileage,
-            condition: getCondition(mileage)
-          }
-        }),
-      });
+      let res = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Accept': "*/*"
+        },
+        body: JSON.stringify(
+          {
+            operation: "update",
+            tableName: "running-shoe-tracker",
+            payload: {
+              "Key" : {
+                id: "xxx"
+              },
+              "UpdateExpression": "SET shoe_records = list_append(shoe_records, :i)",
+              "ExpressionAttributeValues": {
+                ":i": [
+                  {
+                    "shoe_id": uuidv4(),
+                    "shoe_brand": shoeBrand,
+                    "shoe_model": shoeModel,
+                    "mileage": mileage,
+                  }
+                ]
+              },
+              "ReturnValues": "UPDATED_NEW"
+          }})
+        });
       if (res.status === 200) {
         console.log("Added Shoe");
         fetchShoesForRunner();
@@ -101,6 +116,22 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
 }
 
 export default AddShoe
+
+
+// await fetch(`http://localhost:6060/shoe`, {
+//   method: "PUT",
+//   headers: { 'Content-Type': 'application/json' },
+//   body: JSON.stringify({
+//     email: email,
+//     shoe_record: {
+//       id: nanoid(),
+//       shoe_brand: shoeBrand,
+//       shoe_model: shoeModel,
+//       mileage: mileage,
+//       condition: getCondition(mileage)
+//     }
+//   }),
+// });
 
 
 

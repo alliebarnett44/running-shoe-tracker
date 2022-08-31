@@ -7,6 +7,7 @@ import { faEye,faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Link } from 'react-router-dom';
 import { Modal } from 'react-bootstrap'
 import StrengthMeter from './StrengthMeter';
+import { v4 as uuidv4} from 'uuid'
 
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
@@ -64,15 +65,31 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res = await fetch(`http://localhost:6060/user`, {
+    let res = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        username: username,
-        password: password
-      })
-    });
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Accept': "*/*"
+      },
+      body: JSON.stringify(
+        {
+          operation: "create",
+          tableName: "running-shoe-tracker-users",
+          payload: {
+            "Item" : {
+              id : uuidv4(),
+              email: email,
+              username: username,
+              password: password,
+              firstName: firstName,
+              lastName : lastName
+            }
+          }
+        })
+      });
+    const data = await res.json();
+    console.log(data)
     if(res.status === 200) {
       console.log('Added User')
       handleShowModal();

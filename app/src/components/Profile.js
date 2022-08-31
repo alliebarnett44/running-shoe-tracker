@@ -34,8 +34,26 @@ function Profile() {
   
   //Load Shoe Data
   const fetchShoesForRunner = async () => {
-    const response = await fetch(`http://localhost:6060/runner/${email}`);
+    // const response = await fetch(`http://localhost:6060/runner/${email}`);
+    const response = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Accept': "*/*"
+      },
+      body: JSON.stringify(
+        {
+          operation: "get-shoes",
+          tableName: "running-shoe-tracker",
+          payload: {
+            email: email
+          }
+        })
+      });
     const data = await response.json();
+    console.log(data);
+    console.log(data.shoe_records);
     setRunnerShoeRecords(data.shoe_records);
     setData(data);
   } 
@@ -101,7 +119,7 @@ function Profile() {
 
   useEffect(() => {
     console.log(location)
-    fetchUser();
+    // fetchUser();
     fetchShoesForRunner();
   }, [setRunnerShoeRecords, setFirstName])
   
@@ -111,7 +129,7 @@ if(!token){
       <Login setToken={`${setToken}`}/>
     )
 }
-if(isEmptyObject(data)){
+if(isEmptyObject(data.shoe_records)){
   return (
     <div>
       <div>Hello {firstName}!</div>
@@ -120,7 +138,8 @@ if(isEmptyObject(data)){
     </div>
   ) 
 } 
-else if (!runnerShoeRecords.length) {
+// else if (!runnerShoeRecords.length) 
+else if (runnerShoeRecords == undefined) {
   return (
     <div>
       <div>Hello {firstName}!</div>

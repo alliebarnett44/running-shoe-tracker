@@ -47,7 +47,7 @@ if(pathname==="/" || pathname==="/signup"){
           <NavDropdown.Item href="/Signup">Sign Up</NavDropdown.Item>
         </NavDropdown> */}
         <NavDropdown title = {<div style={{display: "inline-block"}}><FaCog style={{color: 'black', cursor: 'pointer', margin: '5px', paddingTop: '20px', paddingleft: '10px', fontsize: '2px'}}/></div>} id="dropdown-basic-button">
-          <NavDropdown.Item href="/Settings">User Settings</NavDropdown.Item>
+          <NavDropdown.Item href="/settings">User Settings</NavDropdown.Item>
           <NavDropdown.Item href="/">Log Out</NavDropdown.Item>
         </NavDropdown>
         </h1> 

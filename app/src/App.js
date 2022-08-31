@@ -10,6 +10,7 @@ import Login from './components/Login'
 import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import SignUp from "./components/SignUp";
+import Settings from "./components/Settings"
 // import Protected from "./components/Protected"
 
 export default function App() {
@@ -33,6 +34,7 @@ export default function App() {
               // </Protected>
             }/>
             <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/settings" element={<Settings/>}/>
         </Routes>
       {/* </div> */}
     </Router>
