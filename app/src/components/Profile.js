@@ -171,7 +171,8 @@ else {
                 <td>{shoeRecord.mileage}</td>
                 <td>{shoeRecord.condition}</td>
                 <td>
-                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email} /> <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
+                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email} /> 
+                  <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
                 </td>
               </TableRow>
             ))

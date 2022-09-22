@@ -27,6 +27,9 @@ const Login = ({ }) => {
     //Validate username and password against database 
     const validateUser = async () => {
       console.log("validating user");
+    
+    console.log(email);
+    console.log(password)
 
      const res = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
         method: 'POST',
@@ -68,7 +71,7 @@ const Login = ({ }) => {
         },
         body: JSON.stringify(
           {
-            operation: "get-shoe",
+            operation: "get-shoes",
             tableName: "running-shoe-tracker",
             payload: {
               email: email,
