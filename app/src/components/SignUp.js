@@ -65,8 +65,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
-      method: 'POST',
+    let res = await fetch("https://aq4k8seahj.execute-api.us-east-1.amazonaws.com/shoes", {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -74,37 +74,17 @@ const SignUp = () => {
       },
       body: JSON.stringify(
         {
-          operation: "create",
-          tableName: "running-shoe-tracker-users",
-          payload: {
-            "Item" : {
-              id : uuidv4(),
-              email: email,
-              username: username,
-              password: password,
-              firstName: firstName,
-              lastName : lastName
-            }
-          }
+          id : uuidv4(),
+          email: email,
+          username: username,
+          password: password,
+          firstName: firstName,
+          lastName : lastName,
+          shoe_records: []
         })
       });
     const data = await res.json();
     console.log(data)
-    if(res.status === 200) {
-      console.log('Added User')
-      handleShowModal();
-    } else {
-      console.log('Error')
-      handleError();
-    }
-    let res2 = await fetch(`http://localhost:6060/user`, {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json'},
-      body: JSON.stringify({
-        email: email,
-        shoe_records: []
-      })
-    });
     if(res.status === 200) {
       console.log('Added User')
       handleShowModal();

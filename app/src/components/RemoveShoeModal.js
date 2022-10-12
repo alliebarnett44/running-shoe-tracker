@@ -3,7 +3,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { useState } from 'react'
 import { FaTrash } from 'react-icons/fa'
 
-const RemoveShoeModal = ({ shoeRecord, removeShoe}) => {
+const RemoveShoeModal = ({ shoeRecord, removeShoe, userId}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -18,7 +18,7 @@ const RemoveShoeModal = ({ shoeRecord, removeShoe}) => {
         <Modal.Body>
           Are you sure you want to delete this shoe record? 
           <button className='btn btn-block' onClick={handleClose} type='submit'>No</button>
-          <button className='btn btn-block' onClick={ () => removeShoe(shoeRecord)} type='submit'>Yes, I am sure.</button>
+          <button className='btn btn-block' onClick={ () => removeShoe(shoeRecord, userId)} type='submit'>Yes, I am sure.</button>
         </Modal.Body>
       </Modal>
     </div>

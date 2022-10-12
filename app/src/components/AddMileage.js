@@ -2,46 +2,49 @@ import React from 'react'
 import { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
 
-const AddMileage = ( {email, fetchShoesForRunner, shoe_id, shoe_brand, mileage } ) => {
+const AddMileage = ( { fetchShoesForRunner, shoe_id, shoe_brand, mileage, userId, update } ) => {
 
   const [addMileage, setAddMileage] = useState(0)
   const [message, setMessage] = useState('')
-
+  // const [newCondition, setNewCondition] = useState('')
   const [show, setShow] = useState(false);
+
+
+  const getNewCondition = (newMileage) => {
+    if(newMileage <= 100){
+      return 'new'
+    }
+    else if (newMileage > 100 && newMileage <= 300){
+      return 'good'
+    }
+    else if(newMileage > 300 && newMileage <=500){
+      return 'bad'
+    }
+    else if(newMileage > 500){
+      return 'bitch get off the road'
+    }
+}
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const newMileage = mileage + addMileage;
+  const newCondition = getNewCondition(newMileage);
 
-  const getNewRecord = () => {
+
+  // console.log(shoe_id);
+  // console.log(shoe_brand);
+
+  // const getNewRecord = () => {
     // updateCondition()
-    fetchShoesForRunner()
-  }
+    // fetchShoesForRunner()
+  // }
 
   // useEffect(() => {
   //   updateCondition()
   // }, [])
 
 
-  const updateCondition = async () => {
-  try{
-    let res = await fetch(`http://localhost:6060/condition`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: shoe_id,
-          total_miles: newMileage
-        }),
-    });
-       if (res.status === 200) {
-          setMessage("Miles Added");
-        } else {
-          setMessage("Some error occured");
-        }}
-         catch (err) {
-          console.log(err)
-        }
-      }    
+ 
 
 
   let handleSubmit = async (e) => {
@@ -50,27 +53,10 @@ const AddMileage = ( {email, fetchShoesForRunner, shoe_id, shoe_brand, mileage }
       console.log('no negative numbers');
       return(null)
     }
-    try {
-      let res = await fetch(`http://localhost:6060/mileagecondition`, {
-        method: "PUT",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          id: shoe_id,
-          shoe_brand: shoe_brand,
-          miles_added: addMileage,
-          total_miles: newMileage
-        }),
-      });
-      if (res.status === 200) {
-        getNewRecord();
-      } else {
-        setMessage("Some error occured");
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    updateCondition()
+    update(newCondition, shoe_id, shoe_brand, newMileage);
     setAddMileage('')
+    handleClose();
+    fetchShoesForRunner(userId)
   };
 
 
