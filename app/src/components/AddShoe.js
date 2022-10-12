@@ -2,9 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import { v4 as uuidv4 } from "uuid";
 import { Modal, Button } from 'react-bootstrap'
+import { useRadioGroup } from '@mui/material';
 
 
-const AddShoe = ( {email, fetchShoesForRunner} ) => {
+const AddShoe = ( {userId, fetchShoesForRunner, addShoe} ) => {
 
   const [shoeBrand, setShoeBrand] = useState("")
   const [mileage, setMileage] = useState(0)
@@ -15,7 +16,7 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
 
   const handleClose = () => {
     setShow(false);
-    fetchShoesForRunner();
+    fetchShoesForRunner(userId);
   }
   const handleShow = () => setShow(true);
 
@@ -41,48 +42,14 @@ const AddShoe = ( {email, fetchShoesForRunner} ) => {
       console.log('no negative numbers');
       return(null)
     }
-    try {
-      let res = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Accept': "*/*"
-        },
-        body: JSON.stringify(
-          {
-            operation: "update",
-            tableName: "running-shoe-tracker",
-            payload: {
-              "Key" : {
-                id: "xxx"
-              },
-              "UpdateExpression": "SET shoe_records = list_append(shoe_records, :i)",
-              "ExpressionAttributeValues": {
-                ":i": [
-                  {
-                    "shoe_id": uuidv4(),
-                    "shoe_brand": shoeBrand,
-                    "shoe_model": shoeModel,
-                    "mileage": mileage,
-                  }
-                ]
-              },
-              "ReturnValues": "UPDATED_NEW"
-          }})
-        });
-      if (res.status === 200) {
-        console.log("Added Shoe");
-        fetchShoesForRunner();
-      } else {
-        console.log("Some error occured");
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    console.log(shoeBrand)
+    console.log(shoeModel)
+    console.log(mileage)
+    addShoe({shoeBrand, shoeModel, mileage})
     setShoeBrand('');
     setMileage('');
     setShoeModel('');
+    getCondition('');
   };
 
   return (

@@ -18,52 +18,12 @@ import Login from './Login.js'
 
 
 
-function Profile() {
+const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, removeShoe, addShoe, update }) => {
   const location = useLocation();
-  const[token, setToken] = useState({});
-  const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
-  const[firstName, setFirstName] = useState('');
-  const [message, setMessage] = useState('');
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState({})
-  
-  const email = location.state.email
+  const userId = location.state.userId
+  console.log(userId)
 
-  const handleClose = () => setShow(false);
 
-  
-  //Load Shoe Data
-  const fetchShoesForRunner = async () => {
-    // const response = await fetch(`http://localhost:6060/runner/${email}`);
-    const response = await fetch("https://w0y4datx2d.execute-api.us-east-1.amazonaws.com/prod/api", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Accept': "*/*"
-      },
-      body: JSON.stringify(
-        {
-          operation: "get-shoes",
-          tableName: "running-shoe-tracker",
-          payload: {
-            email: email
-          }
-        })
-      });
-    const data = await response.json();
-    console.log(data);
-    console.log(data.shoe_records);
-    setRunnerShoeRecords(data.shoe_records);
-    setData(data);
-  } 
-
-  //Load User Data
-  const fetchUser = async () => {
-    const response = await fetch(`http://localhost:6060/user/${email}`);
-    const data = await response.json();
-    setFirstName(data.userRecord.first_name);
-  } 
 
   //Get Shoe Logo
   const shoeLogo = (brand) => {
@@ -87,30 +47,6 @@ function Profile() {
     }
   }
 
-
-  //Remove Shoe
-  const removeShoe = async (shoeRecord) => {
-    console.log(shoeRecord)
-    console.log(email)
-    try {
-      let res = await fetch(`http://localhost:6060/delete`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email: email,
-        shoe_record: shoeRecord
-      })
-    });
-    if (res.status === 200) {
-      setMessage("Removed Shoe");
-      fetchShoesForRunner();
-      handleClose();
-    } else {
-      setMessage("Some error occured");
-    } 
-  } catch (err) {
-      console.log(err);}
-    }
   
   const isEmptyObject = (obj) => {
       return JSON.stringify(obj) === '{}';
@@ -119,36 +55,30 @@ function Profile() {
 
   useEffect(() => {
     console.log(location)
-    // fetchUser();
-    fetchShoesForRunner();
-  }, [setRunnerShoeRecords, setFirstName])
+    fetchShoesForRunner(userId);
+  }, [userId])
   
 
-if(!token){
-    return(
-      <Login setToken={`${setToken}`}/>
-    )
-}
-if(isEmptyObject(data.shoe_records)){
-  return (
-    <div>
-      <div>Hello {firstName}!</div>
-      <p>Start keeping track of your running shoes by adding shoes below.</p>
-      <AddFirstShoe email={email} fetchShoesForRunner={fetchShoesForRunner}/>
-    </div>
-  ) 
-} 
-// else if (!runnerShoeRecords.length) 
-else if (runnerShoeRecords == undefined) {
-  return (
-    <div>
-      <div>Hello {firstName}!</div>
-      <p>Start keeping track of your running shoes by adding shoes below.</p>
-      <AddShoe className="button" email={email} fetchShoesForRunner={fetchShoesForRunner}/>
-    </div>
-  ) 
-} 
-else {
+// if(isEmptyObject(data.Item.shoe_records)){
+//   return (
+//     <div>
+//       <div>Hello {firstName}!</div>
+//       <p>Start keeping track of your running shoes by adding shoes below.</p>
+//       <AddFirstShoe userId={userId} fetchShoesForRunner={fetchShoesForRunner}/>
+//     </div>
+//   ) 
+// } 
+// // else if (!runnerShoeRecords.length) 
+// else if (runnerShoeRecords == undefined) {
+//   return (
+//     <div>
+//       <div>Hello {firstName}!</div>
+//       <p>Start keeping track of your running shoes by adding shoes below.</p>
+//       <AddShoe className="button" userId={userId} fetchShoesForRunner={fetchShoesForRunner}/>
+//     </div>
+//   ) 
+// } 
+// else {
   return (
     <div className='container'>
       <h2>Hello {firstName}! </h2>
@@ -171,14 +101,15 @@ else {
                 <td>{shoeRecord.mileage}</td>
                 <td>{shoeRecord.condition}</td>
                 <td>
-                  <AddMileage className="button" shoe_id={shoeRecord.id} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} email={email} /> <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe}/>
+                  <AddMileage className="button" shoe_id={shoeRecord.shoeRecordId} shoe_brand={shoeRecord.shoe_brand} mileage={shoeRecord.mileage} fetchShoesForRunner={fetchShoesForRunner} userId={userId} update={update} /> 
+                  <RemoveShoeModal shoeRecord={shoeRecord} removeShoe={removeShoe} userId={userId}/>
                 </td>
               </TableRow>
             ))
           }
         </TableBody>
       </Table>
-      <AddShoe className="button" email={email} fetchShoesForRunner={fetchShoesForRunner}/>
+      <AddShoe className="button" userId={userId} fetchShoesForRunner={fetchShoesForRunner} addShoe={addShoe}/>
       <br></br>
       <br></br>
       <></>
@@ -186,7 +117,8 @@ else {
 
     </div>
   )
-}}
+}
+// }
 
   
 export default Profile
