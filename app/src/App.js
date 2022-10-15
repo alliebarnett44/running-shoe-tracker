@@ -23,9 +23,9 @@ export default function App() {
   const[runnerShoeRecords, setRunnerShoeRecords] = useState([]);
   const[firstName, setFirstName] = useState('');
   const [data, setData] = useState({})
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [loginData, setLoginData] = useState({});
+  const [showErrorMessage, setShowErrorMessage] = useState('');
   const [message, setMessage] = useState('');
-  const [show, setShow] = useState(false);
   const navigate = useNavigate();
   
   // const cors = require('cors');
@@ -33,6 +33,21 @@ export default function App() {
   // const logIn = () => {
   //   setIsLoggedIn(true);
   //   };
+
+  const getCondition = (mileage) => {
+    if(mileage <= 100){
+      return 'new'
+    }
+    else if (mileage > 100 && mileage <= 300){
+      return 'good'
+    }
+    else if(mileage > 300 && mileage <=500){
+      return 'bad'
+    }
+    else if(mileage > 500){
+      return 'bitch get off the road'
+    }
+  }
 
   //Load Shoe Data
   const fetchShoesForRunner = async (userId) => {
@@ -50,23 +65,46 @@ export default function App() {
     console.log(data.Item.shoe_records);
     setRunnerShoeRecords(data.Item.shoe_records);
     setFirstName(data.Item.firstName)
-    setData(data.Item);
+    setLoginData(data.Item);
   } 
 
-  //validate credentials
-  const validateCredentials = () => {
-    console.log(userId)
-    if (userId == '') {
-      console.log('User not validated!');
-    }    
-    else if(userId) {
-      navigate("/profile", { state: { userId: userId} } );
+
+  //Create new User
+
+  const createUser = async(data) => {
+    const res = await fetch("https://aq4k8seahj.execute-api.us-east-1.amazonaws.com/shoes", {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Accept': "*/*"
+      },
+      body: JSON.stringify(
+        {
+          id : uuidv4(),
+          email: data.email,
+          username: data.username,
+          password: data.password,
+          firstName: data.firstName,
+          lastName : data.lastName,
+          shoe_records: []
+        })
+      });
+    const response = await res.json();
+    console.log(response)
+    const id = response.Item.id;
+    if(res.status === 200) {
+      console.log('Added User')
     } else {
-      alert('Incorrect email/password')
+      console.log('Error')
     }
+    console.log(id)
+    setUserId(id)
+    fetchShoesForRunner(id);
   }
   
-   //Validate username and password against database
+
+  //Validate username and password against database
    const validateUser = async (email, password) => {
     console.log("validating user");
   
@@ -87,16 +125,45 @@ export default function App() {
         })
       });
   
-    const data = await res.json();
-    console.log(data)
-    setUserId(data);
-    
-    validateCredentials();
-  }
-  //Add Shoe
+    const response = await res.json();
+    console.log(response);
+    console.log(response.Count)
+    const newLoginData = response.Items[0];
+    // console.log(data.Items[0].id);
+    setLoginData(newLoginData);
 
+    if (response && response.Count != 0) {
+      setShowErrorMessage('')
+      setUserId(newLoginData.id);
+      navigate("/profile", { state: { userId: newLoginData.id } } );
+    } else if (response.Count == 0) {
+      setShowErrorMessage('Incorrect Password')
+    }
+    else {
+      setShowErrorMessage('Error')
+      console.log ('Error');
+    }
+  }
+
+  // //validate credentials
+  // const validateCredentials = (userId) => {
+  //   console.log(userId)
+  //   console.log(runnerShoeRecords)
+  //   if (userId == '') {
+  //     console.log('User not validated!');
+  //   }    
+  //   else if(userId) {
+  //     navigate("/profile", { state: { userId: userId} } );
+  //   } else {
+  //     alert('Incorrect email/password')
+  //   }
+  // }
+
+
+  //Add Shoe
   const addShoe = async (data) => {
     console.log(data)
+    console.log(userId)
     const res = await fetch("https://aq4k8seahj.execute-api.us-east-1.amazonaws.com/shoerecord", {
       method: 'PUT',
       headers: {
@@ -110,22 +177,24 @@ export default function App() {
           shoeRecordId: uuidv4(),
           shoe_brand: data.shoeBrand,
           mileage: data.mileage,
-          shoe_model: data.shoeModel
+          shoe_model: data.shoeModel,
+          condition: getCondition(data.mileage)
 
       })
       });
-    if (res.status === 200) {
-      console.log("Added Shoe");
-      fetchShoesForRunner();
-    } else {
-      console.log("Some error occured");
-    }
-  };
+      const response = await res.json();
+      console.log(response);
+      
+      console.log(userId)
+
+      fetchShoesForRunner(userId)
+    };
+
+
 
   //Update Mileage/Condition
 
-  const update = async (shoe_id, newMileage, newShoeBrand, newCondition) => {
-    console.log(userId)
+  const update = async (data) => {
     try{
       let res = await fetch("https://aq4k8seahj.execute-api.us-east-1.amazonaws.com/editshoerecord", {
           method: "PUT",
@@ -135,11 +204,11 @@ export default function App() {
             'Accept': "*/*",
           },
           body: JSON.stringify({
-            id: 'poopy',
-            shoeRecordId: shoe_id,
-            mileage: newMileage,
-            shoe_brand: newShoeBrand,
-            condition: newCondition
+            id: userId,
+            shoeRecordId: data.shoe_id,
+            mileage: data.newMileage,
+            shoe_brand: data.shoe_brand,
+            condition: data.newCondition
           }),
       });
          if (res.status === 200) {
@@ -150,7 +219,9 @@ export default function App() {
            catch (err) {
             console.log(err)
           }
-        }   
+      fetchShoesForRunner(userId);
+    }   
+      
 
   //Remove Shoe
   const removeShoe = async (shoeRecordId, userId) => {
@@ -167,7 +238,7 @@ export default function App() {
     });
     if (res.status === 200) {
       setMessage("Removed Shoe");
-      fetchShoesForRunner();
+      fetchShoesForRunner(userId);
       // handleClose();
     } else {
       setMessage("Some error occured");
@@ -177,17 +248,25 @@ export default function App() {
     }
 
   return(
-      <div className="container"> 
+      <div > 
         <Header/>
         <Routes>
           <Route path="/" element={<Homepage/>}/>
-            <Route path="/login" element={<Login onValidate={validateUser}/>}/>
+            <Route path="/login" element={
+            <>
+            <Login onValidate={validateUser} loginData={loginData}/>
+            <div className='error-message'>
+              {showErrorMessage}
+            </div>
+            </>
+            }
+            />
             <Route path="/profile"  element={
               //  <Protected isLoggedIn={isLoggedIn}>
-                  <Profile fetchShoesForRunner={fetchShoesForRunner} runnerShoeRecords={runnerShoeRecords} firstName={firstName} data={data} removeShoe={removeShoe} addShoe={addShoe} update={update}/>
+                  <Profile fetchShoesForRunner={fetchShoesForRunner} data={data} removeShoe={removeShoe} addShoe={addShoe} update={update} userId={userId} loginData={loginData}/>
               // </Protected>
             }/>
-            <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/signup" element={<SignUp fetchShoesForRunner={fetchShoesForRunner} createUser={createUser}/>}/>
             <Route path="/settings" element={<Settings/>}/>
         </Routes>
       </div>

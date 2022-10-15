@@ -18,7 +18,9 @@ import Login from './Login.js'
 
 
 
-const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, removeShoe, addShoe, update }) => {
+const Profile = ({ fetchShoesForRunner, data, removeShoe, addShoe, update, loginData }) => {
+  console.log(loginData)
+
   const location = useLocation();
   const userId = location.state.userId
   console.log(userId)
@@ -49,25 +51,26 @@ const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, remo
 
   
   const isEmptyObject = (obj) => {
-      return JSON.stringify(obj) === '{}';
+      return JSON.stringify(obj) === {};
   }
 
 
   useEffect(() => {
     console.log(location)
-    fetchShoesForRunner(userId);
-  }, [userId])
+    // fetchShoesForRunner(userId);
+  })
   
 
-// if(isEmptyObject(data.Item.shoe_records)){
-//   return (
-//     <div>
-//       <div>Hello {firstName}!</div>
-//       <p>Start keeping track of your running shoes by adding shoes below.</p>
-//       <AddFirstShoe userId={userId} fetchShoesForRunner={fetchShoesForRunner}/>
-//     </div>
-//   ) 
-// } 
+if(loginData.shoe_records.length == 0){
+  return (
+    <div className='container-2'>
+      <div>Hello {loginData.firstName}!</div>
+      <p>Start keeping track of your running shoes by adding shoes below.</p>
+      <AddShoe className="button" userId={userId} fetchShoesForRunner={fetchShoesForRunner} addShoe={addShoe}/>
+      {/* <AddFirstShoe userId={userId} fetchShoesForRunner={fetchShoesForRunner}/> */}
+    </div>
+  ) 
+} 
 // // else if (!runnerShoeRecords.length) 
 // else if (runnerShoeRecords == undefined) {
 //   return (
@@ -78,10 +81,10 @@ const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, remo
 //     </div>
 //   ) 
 // } 
-// else {
+else {
   return (
     <div className='container'>
-      <h2>Hello {firstName}! </h2>
+      <h2>Hello {loginData.firstName}! </h2>
       <Table className='table'>
         <TableBody>
           <TableRow className='table-header'>
@@ -93,8 +96,8 @@ const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, remo
             <th className='edit'>Edit</th>
           </TableRow>
           {
-            runnerShoeRecords.map((shoeRecord) => (
-              <TableRow className='table-data' key={shoeRecord.id}>
+            loginData.shoe_records.map((shoeRecord) => (
+              <TableRow className='table-data' key={shoeRecord.shoeRecordId}>
                 <td><img src={shoeLogo(shoeRecord.shoe_brand)} alt="Logo" className='table-logo'/></td>
                 <td>{shoeRecord.shoe_brand}</td>
                 <td>{shoeRecord.shoe_model}</td>
@@ -118,7 +121,7 @@ const Profile = ({ fetchShoesForRunner, firstName, data, runnerShoeRecords, remo
     </div>
   )
 }
-// }
+}
 
   
 export default Profile

@@ -45,7 +45,7 @@ const AddShoe = ( {userId, fetchShoesForRunner, addShoe} ) => {
     console.log(shoeBrand)
     console.log(shoeModel)
     console.log(mileage)
-    addShoe({shoeBrand, shoeModel, mileage})
+    addShoe({ shoeBrand, shoeModel, mileage })
     setShoeBrand('');
     setMileage('');
     setShoeModel('');

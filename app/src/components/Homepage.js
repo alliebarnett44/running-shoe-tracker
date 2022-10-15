@@ -6,7 +6,6 @@ const Homepage = () => {
 
   return (
     <div className="container">
-      <p>This is the Homepage</p>
       <br/>
       <p>Keep track of your running shoes. Never run on old shoes!</p>
       <img src={Allie} alt="Logo" className='photo' href='#/'/>

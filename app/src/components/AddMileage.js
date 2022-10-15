@@ -53,10 +53,11 @@ const AddMileage = ( { fetchShoesForRunner, shoe_id, shoe_brand, mileage, userId
       console.log('no negative numbers');
       return(null)
     }
-    update(newCondition, shoe_id, shoe_brand, newMileage);
+    update({newCondition, shoe_id, shoe_brand, newMileage});
     setAddMileage('')
     handleClose();
-    fetchShoesForRunner(userId)
+    console.log(newCondition);
+    console.log(newMileage);
   };
 
 
