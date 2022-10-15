@@ -10,21 +10,19 @@ import { PropTypes } from 'prop-types'
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
-const Login = ({ onValidate }) => {
+const Login = ({ onValidate, loginData }) => {
+  console.log(loginData)
 
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');
+  
   const[show,setshow]=useState(false);
   const pass = useRef();
 
-  function isEmptyObject(obj){
-    return JSON.stringify(obj) === '{}';
-}
-
 
   const handleSubmit = (e) => {  
-    e.preventDefault();  
-    onValidate(email, password);    
+    e.preventDefault(); 
+    onValidate(email, password);
   }
   
   const showpassword = () =>{

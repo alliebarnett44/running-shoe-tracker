@@ -12,8 +12,9 @@ import { v4 as uuidv4} from 'uuid'
 const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
-const SignUp = () => {
+const SignUp = ({ fetchShoesForRunner, createUser }) => {
   const[username, setUsername] = useState('');
+  const [userId, setUserId] = useState('')
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const[email, setEmail] = useState('');
@@ -65,33 +66,8 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let res = await fetch("https://aq4k8seahj.execute-api.us-east-1.amazonaws.com/shoes", {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Accept': "*/*"
-      },
-      body: JSON.stringify(
-        {
-          id : uuidv4(),
-          email: email,
-          username: username,
-          password: password,
-          firstName: firstName,
-          lastName : lastName,
-          shoe_records: []
-        })
-      });
-    const data = await res.json();
-    console.log(data)
-    if(res.status === 200) {
-      console.log('Added User')
-      handleShowModal();
-    } else {
-      console.log('Error')
-      handleError();
-    }
+    createUser({email, firstName, lastName, username, password})
+    handleShowModal();
   }
  
 
@@ -106,7 +82,7 @@ const showpassword = () =>{
     }
 
 const goToProfile = () => {
-  navigate("/profile", { state: { email: email} } )
+  navigate("/profile", { state: { userId: userId} } )
 }
 
 
