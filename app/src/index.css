@@ -9,6 +9,7 @@
 #root{
   margin:0px;
   padding: 0px;
+  background-color: rgb(255, 255, 255);
 }
 
 body {
@@ -56,6 +57,12 @@ body {
   margin-bottom: 20px;
 }
 
+h1 {
+  font-weight: bold;
+  text-align: center;
+  color: white
+
+}
 
 /* .dropdown{
   width: 100%;
@@ -170,11 +177,24 @@ body {
 
 th{
   padding: 10px 20px;
-  border: 2px solid black;
   margin: 0px;
   text-align: center;
 }
 
+.rst{
+  height: 500px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: grid;
+  place-items: center;
+}
+
+.first-txt {
+  position: absolute;
+  top: 17px;
+  left: 50px;
+}
 
 .logo{
   height: 80px;
@@ -183,15 +203,20 @@ th{
   padding-bottom: 15px;
 }
 .photo{
-  height:800px;
-  width: 600px;
-  padding-top: 15px;
-  padding-bottom: 15px;
+  height:100%;
+  width: 20%;
+  padding-top: 0px;
+  padding-bottom: 10px;
 }
 .dropdown-menu{
   text-align: center;
   float: right;
   justify-content: right;
+}
+
+footer {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .menu{
@@ -284,7 +309,7 @@ th{
 }
 
 .navigation {
-  height: 60px;
+  height: 100px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -303,6 +328,7 @@ th{
 }
 .navigation-menu {
   margin-left: auto;
+  margin-top: 10px
 }
 
 .navigation-menu ul {
@@ -318,6 +344,7 @@ th{
   display: block;
   width: 100%;
   color: black;
+  font-size: 25px;
 }
 
 .navigation-menu li a:hover {

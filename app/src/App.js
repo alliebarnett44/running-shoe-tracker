@@ -13,6 +13,7 @@ import Homepage from "./components/Homepage";
 import Profile from "./components/Profile";
 import SignUp from "./components/SignUp";
 import Settings from "./components/Settings"
+import Footer from "./components/Footer";
 import { appBarClasses } from "@mui/material";
 
 // import Protected from "./components/Protected"
@@ -28,11 +29,7 @@ export default function App() {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
   
-  // const cors = require('cors');
-  // App.use(cors());
-  // const logIn = () => {
-  //   setIsLoggedIn(true);
-  //   };
+
 
   const getCondition = (mileage) => {
     if(mileage <= 100){
@@ -269,6 +266,7 @@ export default function App() {
             <Route path="/signup" element={<SignUp fetchShoesForRunner={fetchShoesForRunner} createUser={createUser}/>}/>
             <Route path="/settings" element={<Settings/>}/>
         </Routes>
+        <Footer/>
       </div>
   )
 }

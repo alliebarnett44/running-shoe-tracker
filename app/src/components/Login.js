@@ -11,7 +11,7 @@ const Eye = <FontAwesomeIcon className="icon" icon={faEye} />;
 const EyeSlash = <FontAwesomeIcon className="icon" icon ={faEyeSlash}/>;
 
 const Login = ({ onValidate, loginData }) => {
-  console.log(loginData)
+  // console.log(loginData)
 
   const[email, setEmail] = useState('');
   const[password, setPassword] = useState('');

@@ -5,11 +5,14 @@ import Allie from '../logos/allie.png'
 const Homepage = () => {
 
   return (
-    <div className="container">
-      <br/>
-      <p>Keep track of your running shoes. Never run on old shoes!</p>
-      <img src={Allie} alt="Logo" className='photo' href='#/'/>
-    </div>
+    // <div>
+    //   <img src={Allie} alt="Logo" className='photo' href='#/'/>
+    //   <h1>Keep track of your running shoes. Never run on old shoes!</h1>
+    // </div>
+    <div className='rst' style={{ backgroundImage: `url(${Allie})` }}>
+      {/* <img src={Allie} alt="Logo" className='photo' href='#/'/> */}
+      <h1>Keep track of your running shoes. Never run on old shoes!</h1>
+    </div> 
     
   )
 }
@@ -17,9 +20,7 @@ const Homepage = () => {
 export default Homepage
 
 
-// import img from '/images/download.png'
-/* <div className="logo">
-        <img src={img} />
-      </div> */
-
-{/* <a href='./profile'>Link to Profile</a> */}
+{/* <div className='rst' style={{ backgroundImage: `url(${Allie})` }}>
+    //   <img src={Allie} alt="Logo" className='photo' href='#/'/>
+    //   <h1>Keep track of your running shoes. Never run on old shoes!</h1>
+    // </div> */}
