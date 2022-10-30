@@ -18,26 +18,26 @@ const Header = () => {
     float: "right"
   };
 
-if(pathname==="/" || pathname==="/signup"){
-  return (
-  <div>
-    {/* <Navbar/> */}
-    <div>
-        <h1 className='header'>
-          <img src={Logo} alt="Logo" className='logo' href='#/'/>
-        <div float="right" className="dropdown" >
-          <NavDropdown stlye={{textAlign:"right"}} title="Login/Sign Up" id="dropdown-basic-button" paddingLeft="100px">
-            <NavDropdown.Item href="/Login" style={mystyle} >Login</NavDropdown.Item>
-            <NavDropdown.Item href="/Signup" style={mystyle}>Sign Up</NavDropdown.Item>
-            <NavDropdown.Item href="/Profile" style={mystyle}>Profile</NavDropdown.Item>
-          </NavDropdown>
-        </div>
-        </h1> 
-    </div>
-  </div>
+// if(pathname==="/" || pathname==="/signup"){
+//   return (
+//   <div>
+//     {/* <Navbar/> */}
+//     <div>
+//         <h1 className='header'>
+//           <img src={Logo} alt="Logo" className='logo' href='#/'/>
+//         <div float="right" className="dropdown" >
+//           <NavDropdown stlye={{textAlign:"right"}} title="Login/Sign Up" id="dropdown-basic-button" paddingLeft="100px">
+//             <NavDropdown.Item href="/Login" style={mystyle} >Login</NavDropdown.Item>
+//             <NavDropdown.Item href="/Signup" style={mystyle}>Sign Up</NavDropdown.Item>
+//             <NavDropdown.Item href="/Profile" style={mystyle}>Profile</NavDropdown.Item>
+//           </NavDropdown>
+//         </div>
+//         </h1> 
+//     </div>
+//   </div>
  
-  )
-}
+//   )
+// }
   
   return (
     <div>
